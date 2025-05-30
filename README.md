@@ -1,12 +1,60 @@
-# React + Vite
+# P!CPAC 🎉📸
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**P!CPAC** is a free, fun, and easy-to-use online photobooth that turns your browser into a creative playground. No bookings, no payments — just pick a stylish border, strike your best pose, and snap unforgettable memories. Perfect for friends, families, or solo fun anytime, anywhere!
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- **Completely Free:** No sign-ups, no fees, just pure photobooth fun.
+- **Customizable Borders:** Choose from a variety of unique, playful, and stylish photo frames.
+- **Instant Downloads:** Download your photos in high-quality right after snapping.
+- **Mobile Friendly:** Works seamlessly on phones, tablets, and desktop browsers.
+- **Lightweight & Fast:** Minimal load times, optimized for smooth user experience.
+- **Team-Powered:** Built as a summer passion project by friends with love and creativity.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🎨 Demo
+
+Try it out live! https://netlify.app/picpac
+
+---
+
+## 🛠️ Tech Stack
+This project leverages modern web technologies to deliver a smooth and enjoyable user experience:
+
+**React** — For building declarative, component-based UI
+
+**Tailwind CSS** — For fast, responsive, and clean styling with utility-first classes
+
+---
+
+## 🤝 Contributing
+We love collaboration and welcome contributions from developers of all levels! Here's how you can help:
+
+- Fork the repository
+
+- Create a new branch for your feature or bugfix (git checkout -b feature/your-feature)
+
+- Make your improvements
+
+- Commit your changes with clear messages (git commit -m "Add feature")
+
+- Push your branch (git push origin feature/your-feature)
+
+- Open a Pull Request describing your changes
+
+- Feel free to report issues, suggest new features, or improve documentation!
+
+---
+
+## 📦 Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/yourusername/picpac.git
+cd picpac
+npm install
+npm start
