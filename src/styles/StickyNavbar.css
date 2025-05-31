@@ -1,0 +1,285 @@
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 63px;           /* 90 * 0.7 */
+  height: 28px;          /* 40 * 0.7 */
+  border: 1px solid rgb(58, 58, 58);
+  border-radius: 15px;   /* 22 * 0.7 */
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  border-radius: 14px;   /* 20 * 0.7 */
+  transition: 0.4s;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 21px;          /* 30 * 0.7 */
+  width: 21px;           /* 30 * 0.7 */
+  left: 3px;             /* 4 * 0.7 */
+  bottom: 3.5px;         /* 5 * 0.7 */
+  background-color: white;
+  transition: 1s;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.moons-hole {
+  content: "";
+  position: absolute;
+  opacity: 1;
+  transition: 1s;
+}
+
+.moon-hole {
+  position: absolute;
+  border-radius: 50%;
+  transform: translateX(0px);
+}
+
+.moon-hole:nth-child(1) {
+  background-color: rgb(85, 85, 85);
+  height: 3.5px;         /* 5 * 0.7 */
+  width: 3.5px;          /* 5 * 0.7 */
+  top: 18px;             /* 26 * 0.7 */
+  left: 14px;            /* 20 * 0.7 */
+}
+
+.moon-hole:nth-child(2) {
+  background-color: rgb(85, 85, 85);
+  height: 7px;           /* 10 * 0.7 */
+  width: 7px;            /* 10 * 0.7 */
+  top: 11px;             /* 16 * 0.7 */
+  left: 5px;             /* 7 * 0.7 */
+}
+
+.moon-hole:nth-child(3) {
+  background-color: rgb(85, 85, 85);
+  height: 3px;           /* 4 * 0.7 */
+  width: 3px;            /* 4 * 0.7 */
+  top: 8px;              /* 12 * 0.7 */
+  left: 15px;            /* 21 * 0.7 */
+}
+
+input:checked + .slider {
+  background-color: #62cff0;
+}
+
+input:checked + .slider:before {
+  transform: translateX(36px); /* 52 * 0.7 */
+  background-color: orange;
+}
+
+input:checked + .slider .moons-hole {
+  transform: translateX(36px); /* 52 * 0.7 */
+  opacity: 0;
+}
+
+.stars {
+  right: 4px;             /* 6 * 0.7 */
+  top: 0;
+  bottom: 0;
+  transition: 1s;
+  transform: translateY(0px);
+}
+
+.star {
+  position: absolute;
+  fill: white;
+  animation: star-twinkle 2s infinite;
+  opacity: 1;
+}
+
+.star:nth-child(1) {
+  top: 4px;               /* 5 * 0.7 */
+  right: 20px;            /* 29 * 0.7 */
+  width: 14px;            /* 20 * 0.7 */
+  animation-delay: 0.3s;
+}
+
+.star:nth-child(2) {
+  top: 13px;              /* 18 * 0.7 */
+  right: 6px;             /* 9 * 0.7 */
+  width: 10px;            /* 15 * 0.7 */
+}
+
+.star:nth-child(3) {
+  top: 4px;               /* 5 * 0.7 */
+  right: 10px;            /* 15 * 0.7 */
+  width: 7px;             /* 10 * 0.7 */
+  animation-delay: 0.6s;
+}
+
+.star:nth-child(4) {
+  top: 18px;              /* 26 * 0.7 */
+  right: 20px;            /* 28 * 0.7 */
+  width: 8px;             /* 12 * 0.7 */
+  animation-delay: 0.9s;
+}
+
+.star:nth-child(5) {
+  top: 1.5px;             /* 2 * 0.7 */
+  right: 35px;            /* 50 * 0.7 */
+  width: 6px;             /* 8 * 0.7 */
+  animation-delay: 1.2s;
+}
+
+input:checked + .slider .stars {
+  transform: translateY(-22px); /* 32 * 0.7 */
+  opacity: 0;
+}
+
+@keyframes star-twinkle {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.2);
+  }
+  80% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.clouds {
+  position: absolute;
+  left: 4px;              /* 6 * 0.7 */
+  top: 0;
+  bottom: 0;
+  width: 14px;            /* 20 * 0.7 */
+  transition: 1s;
+  transform: translateX(-39px); /* 55 * 0.7 */
+}
+
+.black-clouds {
+  position: absolute;
+  left: 4px;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  transition: 1s;
+  transform: translateX(-39px);
+  opacity: 0;
+  z-index: 0;
+}
+
+.black-cloud {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background-color: #555;
+  opacity: 60%;
+  border-radius: 50%;
+  animation: cloud-move 6s infinite;
+  animation-delay: 1s;
+}
+
+.black-cloud:nth-child(1) {
+  top: 1px;
+  right: 2px;
+}
+
+.black-cloud:nth-child(2) {
+  top: 11px;
+  left: 6px;
+}
+
+.black-cloud:nth-child(3) {
+  top: 14px;
+  left: 19px;
+}
+
+input:checked + .slider .black-clouds {
+  transform: translateX(22px); /* 32 * 0.7 */
+  opacity: 1;
+}
+
+.cloud {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background-color: white;
+  border-radius: 50%;
+  z-index: 1;
+  animation: cloud-move 6s infinite;
+}
+
+.cloud:nth-child(1) {
+  top: 0;
+  height: 15px;
+  width: 15px;
+  right: 10px;
+}
+
+.cloud:nth-child(2) {
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  top: 10px;
+  right: 4px;
+}
+
+.cloud:nth-child(3) {
+  height: 16px;
+  width: 16px;
+  top: 20px;
+  left: 3px;
+}
+
+.cloud:nth-child(4) {
+  top: 18px;
+  left: 14px;
+}
+
+.cloud:nth-child(5) {
+  top: 21px;
+  left: 21px;
+}
+
+.cloud:nth-child(6) {
+  top: 19px;
+  left: 32px;
+}
+
+.cloud:nth-child(7) {
+  top: 22px;
+  left: 41px;
+}
+
+input:checked + .slider .clouds {
+  transform: translateX(22px);
+  opacity: 1;
+}
+
+@keyframes cloud-move {
+  0% {
+    transform: translateX(-22px);
+  }
+  40% {
+    transform: translateX(-25px);
+  }
+  80% {
+    transform: translateX(-20px);
+  }
+  100% {
+    transform: translateX(-22px);
+  }
+}
