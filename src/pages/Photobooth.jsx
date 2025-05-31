@@ -127,7 +127,7 @@ export default function Photobooth() {
   return (
     <div className="min-h-screen text-white flex flex-col items-center justify-center p-4">
       <div className="flex flex-row gap-6 items-start">
-        <div className="relative w-[800px] h-[500px]">
+        <div className="relative w-full sm:w-[600px] md:w-[800px] lg:w-[1200px] aspect-video">
           <video
             ref={videoRef}
             autoPlay
