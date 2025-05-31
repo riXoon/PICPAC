@@ -5,6 +5,8 @@ import StickyNavbar from './components/StickyNavbar';
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
 import Faq from './pages/FAQs.jsx';
+import LayoutSelection from './pages/LayoutSelection.jsx';
+import Photobooth from './pages/Photobooth.jsx'
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
             }
           />
           <Route path="/faq" element={<Faq />} />
+          <Route path="/select-layout" element={<LayoutSelection />} />
+           <Route path="/photobooth" element={<Photobooth />} />
         </Routes>
       </div>
     </Router>
