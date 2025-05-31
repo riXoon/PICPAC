@@ -18,7 +18,6 @@ export default function Photobooth() {
   const navigate = useNavigate();
   const layoutId = location.state?.layoutId;
 
-  // Redirect if no layoutId is present (e.g., page reload or direct access)
   useEffect(() => {
     if (!layoutId) {
       navigate("/layout-selection");
@@ -27,7 +26,6 @@ export default function Photobooth() {
 
   const PhotoLayout = layoutComponents[layoutId] || LayoutA;
   const [photoCount, setPhotoCount] = useState(3);
-
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [capturedPhotos, setCapturedPhotos] = useState([]);
@@ -35,8 +33,9 @@ export default function Photobooth() {
   const [countdown, setCountdown] = useState(5);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [flash, setFlash] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
   const countdownRef = useRef(null);
-  const photoTakenRef = useRef(false); //prevent double capture
+  const photoTakenRef = useRef(false);
 
   useEffect(() => {
     if (layoutId && layoutPhotoCount[layoutId]) {
@@ -63,7 +62,7 @@ export default function Photobooth() {
   };
 
   useEffect(() => {
-    if (currentShot < photoCount && isVideoReady) {
+    if (hasStarted && currentShot < photoCount && isVideoReady) {
       setCountdown(5);
       photoTakenRef.current = false;
 
@@ -82,7 +81,7 @@ export default function Photobooth() {
     }
 
     return () => clearInterval(countdownRef.current);
-  }, [currentShot, isVideoReady, photoCount]);
+  }, [currentShot, isVideoReady, photoCount, hasStarted]);
 
   const takePhoto = () => {
     const video = videoRef.current;
@@ -102,9 +101,8 @@ export default function Photobooth() {
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
     const dataURL = canvas.toDataURL("image/png");
 
-    // Show flash effect
     setFlash(true);
-    setTimeout(() => setFlash(false), 150); // flash duration
+    setTimeout(() => setFlash(false), 150);
 
     setCapturedPhotos((prev) => [...prev, dataURL]);
     setCurrentShot((prev) => prev + 1);
@@ -114,6 +112,7 @@ export default function Photobooth() {
     setCapturedPhotos([]);
     setCurrentShot(0);
     setCountdown(5);
+    setHasStarted(false);
     photoTakenRef.current = false;
   };
 
@@ -121,11 +120,10 @@ export default function Photobooth() {
     console.log("Final photos:", capturedPhotos);
   };
 
-  // If no layoutId (while redirecting), avoid rendering anything to prevent flicker
   if (!layoutId) return null;
 
   return (
-    <div className="min-h-screen text-white flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen text-white flex flex-col items-center justify-center p-4 relative">
       <div className="flex flex-row gap-6 items-start">
         <div className="relative w-full sm:w-[600px] md:w-[800px] lg:w-[1200px] aspect-video">
           <video
@@ -134,31 +132,37 @@ export default function Photobooth() {
             playsInline
             onLoadedMetadata={handleVideoReady}
             className="w-full h-full rounded-lg border-4 border-white object-cover"
+            style={{ transform: "scaleX(-1)" }}
           />
 
-          {/* Flash Effect */}
           {flash && (
             <div className="absolute inset-0 bg-white opacity-80 animate-fade-out rounded-lg pointer-events-none"></div>
           )}
 
-          {/* Countdown */}
-          {countdown > 0 && (
+          {countdown > 0 && hasStarted && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-white text-[100px] font-bold drop-shadow-lg animate-pulse">
+              <div className="text-white text-[100px] font-bold drop-shadow-lg animate-scale-pulse">
                 {countdown}
               </div>
             </div>
           )}
+
+          {!hasStarted && (
+            <button
+              onClick={() => setHasStarted(true)}
+              className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-20 h-20 rounded-full bg-white border-4 border-gray-400 shadow-lg hover:scale-105 active:scale-95 transition-transform duration-300"
+              aria-label="Start Capture"
+            />
+          )}
         </div>
 
-        {/* Thumbnails */}
         <div className="flex flex-col gap-2">
           {capturedPhotos.map((photo, index) => (
             <img
               key={index}
               src={photo}
               alt={`Captured ${index + 1}`}
-              className="w-45 h-32 object-cover rounded border"
+              className="w-45 h-32 object-cover rounded border animate-slide-in-right"
             />
           ))}
         </div>
