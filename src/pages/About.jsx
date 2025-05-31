@@ -28,8 +28,11 @@ export default function About() {
       <header className="py-16 px-6 text-center">
         <h1 className="text-5xl font-bold text-white drop-shadow-md">About <span className='text-indigo-500'>P!CPAC</span></h1>
         <p className="mt-4 text-lg text-white max-w-2xl mx-auto">
-          P!CPAC is a fun and free photobooth project made by friends over summer vacation.
-          No bookings, no payments — just good vibes and cool photo borders!
+          Forget installations or accounts – our online photobooth is a versatile, 
+          browser-based tool you can use anytime, anywhere. Easily snap photobooth-style photos, 
+          personalize them with frame colors and digital stickers, then instantly download high-resolution 
+          strips to any device. It is designed for effortless performance and creative freedom, providing 
+          an all-in-one solution for shareable online photo fun.
         </p>
       </header>
 
