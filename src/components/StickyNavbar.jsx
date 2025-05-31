@@ -43,9 +43,9 @@ const StickyNavbar = () => {
           {/* Center Nav Links */}
           <div className="absolute inset-0 flex justify-center items-center">
             <div className="hidden md:flex space-x-24 text-lg">
-              <a href="#home" className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2">
+              <Link to='/' href="#home" className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2">
                 Home
-              </a>
+              </Link>
               <a href="#about" className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2">
                 About
               </a>
