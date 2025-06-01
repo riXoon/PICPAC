@@ -15,11 +15,19 @@ const layoutComponents = {
 
 const filters = [
   {filterName: 'None', value: 'none'},
+  {filterName: 'Vintage', value: 'sepia(0.6) contrast(1.2) brightness(0.9)'},
   {filterName: 'Gray', value: 'grayscale(1)'},
-  {filterName: 'Sepia', value: 'sepia(1)'},
+  {filterName: 'Noir', value: 'grayscale(1) contrast(1.3)'},
   {filterName: 'Blur', value: 'blur(3px)'},
+  {filterName: 'Washed Out', value: 'brightness(1.2) contrast(0.8)'},
   {filterName: 'Brightness', value: 'brightness(1.4)'},
+  {filterName: 'Indie', value: 'hue-rotate(270deg) saturate(1.2)'},
+  {filterName: 'Sepia', value: 'sepia(1)'},
+  {filterName: 'Cyberpunk', value: 'hue-rotate(310deg) saturate(1.5) contrast(1.2)'},
   {filterName: 'Contrast', value: 'contrast(1.5)'},
+  {filterName: 'Polaroid Glow', value: 'brightness(1.1) contrast(0.9) sepia(0.3)'},
+  {filterName: 'Retro Green', value: 'sepia(0.4) hue-rotate(120deg) saturate(1.5)'},
+  
 ]
 
 export default function Photobooth() {
@@ -199,7 +207,8 @@ export default function Photobooth() {
         </div>
       )}
 
-      <div className="mt-4 flex gap-4 overflow-x-auto max-w-full px-2 items-center justify-center">
+      <h1 className="text-lg text-[#6A6A6A] font-semibold tracking-wide mt-3">Choose Filter</h1>
+      <div className="mt-4 grid grid-flow-col grid-rows-2 gap-4 overflow-x-auto max-w-full px-2 items-center justify-center">
             {filters.map((filter) => (
               <button
                 key={filter.filterName}
