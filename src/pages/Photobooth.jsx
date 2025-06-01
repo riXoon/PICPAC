@@ -25,8 +25,15 @@ const filters = [
   {filterName: 'Sepia', value: 'sepia(1)'},
   {filterName: 'Cyberpunk', value: 'hue-rotate(310deg) saturate(1.5) contrast(1.2)'},
   {filterName: 'Contrast', value: 'contrast(1.5)'},
-  {filterName: 'Polaroid Glow', value: 'brightness(1.1) contrast(0.9) sepia(0.3)'},
+  {filterName: "Polaroid", value: "sepia(0.3) contrast(0.8) brightness(1.05)"},
   {filterName: 'Retro Green', value: 'sepia(0.4) hue-rotate(120deg) saturate(1.5)'},
+  {filterName: "Retro", value: "sepia(0.3) contrast(0.9) brightness(1.1)" },
+  {filterName: "Indie Kid", value: "saturate(1.3) hue-rotate(30deg) contrast(1.1)" },
+  {filterName: "Dreamy", value: "brightness(1.1) blur(1px) contrast(0.9)" },
+  {filterName: "Muted", value: "saturate(0.6) contrast(0.9)" },
+  {filterName: "Golden Hour", value: "sepia(0.4) brightness(1.1) contrast(1.05)" },
+  {filterName: "Peachy", value: "sepia(0.2) hue-rotate(-10deg) brightness(1.2)" },
+  {filterName: "Frosted", value: "brightness(1.2) hue-rotate(200deg) saturate(0.8)" },
   
 ]
 
