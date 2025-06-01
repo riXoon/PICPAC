@@ -17,7 +17,7 @@
 
 ## 🎨 Demo
 
-Try it out live! https://netlify.app/picpac
+Try it out live! https://picpac.netlify.app/
 
 ---
 
