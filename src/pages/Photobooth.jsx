@@ -13,6 +13,15 @@ const layoutComponents = {
   D: LayoutD,
 };
 
+const filters = [
+  {filterName: 'None', value: 'none'},
+  {filterName: 'Gray', value: 'grayscale(1)'},
+  {filterName: 'Sepia', value: 'sepia(1)'},
+  {filterName: 'Blur', value: 'blur(3px)'},
+  {filterName: 'Brightness', value: 'brightness(1.4)'},
+  {filterName: 'Contrast', value: 'contrast(1.5)'},
+]
+
 export default function Photobooth() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -34,6 +43,7 @@ export default function Photobooth() {
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [flash, setFlash] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState('none')
   const countdownRef = useRef(null);
   const photoTakenRef = useRef(false);
 
@@ -92,12 +102,13 @@ export default function Photobooth() {
     const context = canvas.getContext("2d");
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-
+    
     if (canvas.width === 0 || canvas.height === 0) {
       console.warn("Video not ready for capture.");
       return;
     }
-
+    
+    context.filter = selectedFilter;
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
     const dataURL = canvas.toDataURL("image/png");
 
@@ -131,9 +142,10 @@ export default function Photobooth() {
             autoPlay
             playsInline
             onLoadedMetadata={handleVideoReady}
-            className="w-full h-full rounded-lg border-4 border-white object-cover"
-            style={{ transform: "scaleX(-1)" }}
+            className= 'w-full h-full rounded-lg border-4 border-white object-cover -transform -scale-x-100 '
+            style= {{filter:selectedFilter}}
           />
+
 
           {flash && (
             <div className="absolute inset-0 bg-white opacity-80 animate-fade-out rounded-lg pointer-events-none"></div>
@@ -162,7 +174,7 @@ export default function Photobooth() {
               key={index}
               src={photo}
               alt={`Captured ${index + 1}`}
-              className="w-45 h-32 object-cover rounded border animate-slide-in-right"
+              className="w-45 h-32 object-cover rounded border animate-slide-in-right -transform -scale-x-100"
             />
           ))}
         </div>
@@ -186,6 +198,22 @@ export default function Photobooth() {
           </button>
         </div>
       )}
+
+      <div className="mt-4 flex gap-4 overflow-x-auto max-w-full px-2 items-center justify-center">
+            {filters.map((filter) => (
+              <button
+                key={filter.filterName}
+                onClick={() => setSelectedFilter(filter.value)}
+                className={`px-4 py-2 rounded-full border text-sm whitespace-nowrap ${
+                  selectedFilter === filter.value
+                    ? "bg-indigo-500 text-white"
+                    : "bg-white text-black"
+                }`}
+              >
+                {filter.filterName}
+              </button>
+            ))}
+          </div>
     </div>
   );
 }
