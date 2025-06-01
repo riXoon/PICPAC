@@ -6,6 +6,23 @@ import LayoutB from "../components/layouts/LayoutB";
 import LayoutC from "../components/layouts/LayoutC";
 import LayoutD from "../components/layouts/LayoutD";
 
+//filters import 
+import Filter1 from "../assets/filters/filter-none.png"
+import Filter2 from "../assets/filters/filter-gray.png"
+import Filter3 from "../assets/filters/filter-blur.png"
+import Filter4 from "../assets/filters/filter-brightness.png"
+import Filter5 from "../assets/filters/filter-sepia.png"
+import Filter6 from "../assets/filters/filter-contrast.png"
+import Filter7 from "../assets/filters/filter-vintage.png"
+import Filter8 from "../assets/filters/filter-peachy.png"
+import Filter9 from "../assets/filters/filter-dreamy.png"
+import Filter10 from "../assets/filters/filter-golderhour.png"
+import Filter11 from "../assets/filters/filter-indiekid.png"
+import Filter12 from "../assets/filters/filter-polaroid.png"
+import Filter13 from "../assets/filters/filter-retro.png"
+import Filter14 from "../assets/filters/filter-washedout.png"
+
+
 const layoutComponents = {
   A: LayoutA,
   B: LayoutB,
@@ -14,26 +31,22 @@ const layoutComponents = {
 };
 
 const filters = [
-  {filterName: 'None', value: 'none'},
-  {filterName: 'Vintage', value: 'sepia(0.6) contrast(1.2) brightness(0.9)'},
-  {filterName: 'Gray', value: 'grayscale(1)'},
-  {filterName: 'Noir', value: 'grayscale(1) contrast(1.3)'},
-  {filterName: 'Blur', value: 'blur(3px)'},
-  {filterName: 'Washed Out', value: 'brightness(1.2) contrast(0.8)'},
-  {filterName: 'Brightness', value: 'brightness(1.4)'},
-  {filterName: 'Indie', value: 'hue-rotate(270deg) saturate(1.2)'},
-  {filterName: 'Sepia', value: 'sepia(1)'},
-  {filterName: 'Cyberpunk', value: 'hue-rotate(310deg) saturate(1.5) contrast(1.2)'},
-  {filterName: 'Contrast', value: 'contrast(1.5)'},
-  {filterName: "Polaroid", value: "sepia(0.3) contrast(0.8) brightness(1.05)"},
-  {filterName: 'Retro Green', value: 'sepia(0.4) hue-rotate(120deg) saturate(1.5)'},
-  {filterName: "Retro", value: "sepia(0.3) contrast(0.9) brightness(1.1)" },
-  {filterName: "Indie Kid", value: "saturate(1.3) hue-rotate(30deg) contrast(1.1)" },
-  {filterName: "Dreamy", value: "brightness(1.1) blur(1px) contrast(0.9)" },
-  {filterName: "Muted", value: "saturate(0.6) contrast(0.9)" },
-  {filterName: "Golden Hour", value: "sepia(0.4) brightness(1.1) contrast(1.05)" },
-  {filterName: "Peachy", value: "sepia(0.2) hue-rotate(-10deg) brightness(1.2)" },
-  {filterName: "Frosted", value: "brightness(1.2) hue-rotate(200deg) saturate(0.8)" },
+  {filterName: 'None', value: 'none', image: Filter1},
+  {filterName: 'Vintage', value: 'sepia(0.6) contrast(1.2) brightness(0.9)', image: Filter7},
+  {filterName: 'Gray', value: 'grayscale(1)', image: Filter2},
+  {filterName: 'Noir', value: 'grayscale(1) contrast(1.3)', image: Filter8},
+  {filterName: 'Blur', value: 'blur(3px)', image: Filter3},
+  {filterName: 'Washed Out', value: 'brightness(1.2) contrast(0.8)', image: Filter14},
+  {filterName: 'Brightness', value: 'brightness(1.4)', image: Filter4},
+  {filterName: 'Sepia', value: 'sepia(1)', image: Filter5},
+  {filterName: 'Contrast', value: 'contrast(1.5)', image: Filter6},
+  {filterName: "Polaroid", value: "sepia(0.3) contrast(0.8) brightness(1.05)", image: Filter12},
+  {filterName: "Retro", value: "sepia(0.3) contrast(0.9) brightness(1.1)", image: Filter13 },
+  {filterName: "Indie Kid", value: "saturate(1.3) hue-rotate(30deg) contrast(1.1)", image: Filter11 },
+  {filterName: "Dreamy", value: "brightness(1.1) blur(1px) contrast(0.9)", image: Filter9 },
+  {filterName: "Muted", value: "saturate(0.6) contrast(0.9)",  },
+  {filterName: "Golden Hour", value: "sepia(0.4) brightness(1.1) contrast(1.05)",image: Filter10 },
+  {filterName: "Peachy", value: "sepia(0.2) hue-rotate(-10deg) brightness(1.2)", image: Filter8 },
   
 ]
 
@@ -215,20 +228,26 @@ export default function Photobooth() {
       )}
 
       <h1 className="text-lg text-[#6A6A6A] font-semibold tracking-wide mt-3">Choose Filter</h1>
-      <div className="mt-4 grid grid-flow-col grid-rows-2 gap-4 overflow-x-auto max-w-full px-2 items-center justify-center">
-            {filters.map((filter) => (
-              <button
-                key={filter.filterName}
-                onClick={() => setSelectedFilter(filter.value)}
-                className={`px-4 py-2 rounded-full border text-sm whitespace-nowrap ${
-                  selectedFilter === filter.value
-                    ? "bg-indigo-500 text-white"
-                    : "bg-white text-black"
-                }`}
-              >
+    <div className="mt-4 grid grid-flow-col grid-rows-2 gap-4 overflow-x-auto max-w-full px-2 items-center justify-center">
+           {filters.map((filter) => (
+            <button
+              key={filter.filterName}
+              onClick={() => setSelectedFilter(filter.value)}
+              className="cursor-pointer relative w-17 h-17 flex-shrink-0 rounded-2xl border-3 overflow-hidden group transition-all duration-300 focus:outline-none"
+              style={{
+                borderColor: selectedFilter === filter.value ? "#6366F1" : "#e5e7eb",
+              }}
+            >
+              <img
+                src={filter.image}
+                alt={filter.filterName}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[12px] font-medium">
                 {filter.filterName}
-              </button>
-            ))}
+              </div>
+            </button>
+          ))}
           </div>
     </div>
   );
