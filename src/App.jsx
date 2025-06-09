@@ -7,6 +7,7 @@ import About from './pages/About.jsx';
 import Faq from './pages/FAQs.jsx';
 import LayoutSelection from './pages/LayoutSelection.jsx';
 import Photobooth from './pages/Photobooth.jsx'
+import CustomizationPage from './pages/CustomizationPage.jsx';
 
 function App() {
   return (
@@ -25,7 +26,10 @@ function App() {
           />
           <Route path="/faq" element={<Faq />} />
           <Route path="/select-layout" element={<LayoutSelection />} />
-           <Route path="/photobooth" element={<Photobooth />} />
+          <Route path="/photobooth" element={<Photobooth />} />
+
+          <Route path="/customization" element={<CustomizationPage />} />
+
         </Routes>
       </div>
     </Router>
