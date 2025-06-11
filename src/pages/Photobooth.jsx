@@ -156,8 +156,14 @@ export default function Photobooth() {
   };
 
   const handleDone = () => {
-    console.log("Final photos:", capturedPhotos);
-  };
+  navigate("/customization", {
+    state: {
+      capturedPhotos,
+      layoutId,
+    },
+  });
+};
+
 
   if (!layoutId) return null;
 
