@@ -19,9 +19,35 @@ import Template13 from '/templates/LayoutA/layoutA-template13.png';
 
 import OverlayA1 from '/overlays/LayoutA/layoutA-overlay1.png';
 import OverlayA2 from '/overlays/LayoutA/layoutA-overlay2.png';
+import OverlayA3 from '/overlays/LayoutA/layoutA-overlay3.png';
+import OverlayA4 from '/overlays/LayoutA/layoutA-overlay4.png';
+import OverlayA5 from '/overlays/LayoutA/layoutA-overlay5.png';
+import OverlayA6 from '/overlays/LayoutA/layoutA-overlay6.png';
+import OverlayA7 from '/overlays/LayoutA/layoutA-overlay7.png';
+import OverlayA8 from '/overlays/LayoutA/layoutA-overlay8.png';
+import OverlayA9 from '/overlays/LayoutA/layoutA-overlay9.png';
+import OverlayA10 from '/overlays/LayoutA/layoutA-overlay10.png';
 
 import Preview1 from '/overlays/Preview/stickerPreview1.png';
 import Preview2 from '/overlays/Preview/stickerPreview2.png';
+import Preview3 from '/overlays/Preview/stickerPreview3.png';
+import Preview4 from '/overlays/Preview/stickerPreview4.png';
+import Preview5 from '/overlays/Preview/stickerPreview5.png';
+import Preview6 from '/overlays/Preview/stickerPreview6.png';
+import Preview7 from '/overlays/Preview/stickerPreview7.png';
+import Preview8 from '/overlays/Preview/stickerPreview8.png';
+import Preview9 from '/overlays/Preview/stickerPreview9.png';
+import Preview10 from '/overlays/Preview/stickerPreview10.png';
+import Null from '/overlays/Preview/stickerPreviewNull.png';
+
+import FontPreview1 from '/overlays/Preview/FontPreview1.png';
+import FontPreview2 from '/overlays/Preview/FontPreview2.png';
+import FontPreview3 from '/overlays/Preview/FontPreview3.png';
+import FontPreview4 from '/overlays/Preview/FontPreview4.png';
+import FontPreview5 from '/overlays/Preview/FontPreview5.png';
+import FontPreview6 from '/overlays/Preview/FontPreview6.png';
+import FontPreview7 from '/overlays/Preview/FontPreview7.png';
+
 
 const allTemplate = {
   A: [
@@ -59,8 +85,7 @@ const presetColors = [
 
 const presetTextColors = [
   // Light Pastels
-  '#ffffff', '#F2D7D5', '#FAD7A0', '#F9E79F', '#D7BDE2',
-  '#A3E4D7', '#AED6F1',
+  '#ffffff', '#AED6F1',
   // Vivid/Bright
   '#FF6B6B', '#F39C12',
   // Neutral Tones
@@ -71,15 +96,51 @@ const presetTextColors = [
 
 const allOverlays = {
   A: [
+    { overlay: null},
     { overlay: OverlayA1},
     { overlay: OverlayA2},
+    { overlay: OverlayA3},
+    { overlay: OverlayA4},
+    { overlay: OverlayA5},
+    { overlay: OverlayA6},
+    { overlay: OverlayA7},
+    { overlay: OverlayA8},
+    { overlay: OverlayA9},
+    { overlay: OverlayA10},
   ]
 }
 
 const preview = [
+  { preview: Null },
   { preview: Preview1 },
   { preview: Preview2 },
+  { preview: Preview3 },
+  { preview: Preview4 },
+  { preview: Preview5 },
+  { preview: Preview6 },
+  { preview: Preview7 },
+  { preview: Preview8 },
+  { preview: Preview9 },
+  { preview: Preview10 },
 ]
+
+const fonts = {
+  Fredoka: 'bold 20px Fredoka, sans-serif',
+  Bungee: 'bold 20px Bungee, sans-serif',
+  Chewy: 'bold 20px Chewy, sans-serif',
+  Luckiest: 'bold 20px Luckiest Guy, sans-serif',
+  Boogaloo: 'bold 20px Boogaloo, sans-serif',
+  Monoton: 'bold 20px Monoton, cursive',
+}
+
+const fontPreviews = [
+  { preview: FontPreview1, font: fonts.Fredoka },
+  { preview: FontPreview2, font: fonts.Bungee },
+  { preview: FontPreview3, font: fonts.Chewy },
+  { preview: FontPreview4, font: fonts.Luckiest },
+  { preview: FontPreview5, font: fonts.Boogaloo },
+  { preview: FontPreview7, font: fonts.Monoton },
+];
 
 
 function CustomizationPage() {
@@ -97,8 +158,13 @@ function CustomizationPage() {
 
   const [bgColor, setBgColor] = useState('#ffffff');
   const [bgMode, setBgMode] = useState('color'); // 'color' or 'image'\
-  
+
+  const [showDate, setShowDate] = useState(false);
+  const [showTime, setShowTime] = useState(false);
+
   const [overlay, setOverlay] = useState(0);
+
+  const [customFont, setCustomFont] = useState('bold 20px Fredoka, sans-serif');
 
   useEffect(() => {
   const canvas = canvasRef.current;
@@ -130,16 +196,32 @@ function CustomizationPage() {
 
         // Draw logo/text on top of the overlay
         ctx.fillStyle = textColor;
-        ctx.font = 'bold 20px Fredoka, sans-serif';
+        ctx.font = customFont
         ctx.textAlign = 'center';
         ctx.fillText('P!CPAC', canvasWidth / 2, canvasHeight - 110);
       };
     } else {
       // No overlay, just draw text
       ctx.fillStyle = textColor;
-      ctx.font = 'bold 20px Fredoka, sans-serif';
+      ctx.font = customFont;
       ctx.textAlign = 'center';
       ctx.fillText('P!CPAC', canvasWidth / 2, canvasHeight - 110);
+    }
+
+    const now = new Date();
+
+    if (showDate) {
+      ctx.fillStyle = textColor;
+      ctx.font = '14px Fredoka, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(now.toLocaleDateString(), 50, canvasHeight - 10);
+    }
+
+    if (showTime) {
+      ctx.fillStyle = textColor;
+      ctx.font = '14px Fredoka, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(now.toLocaleTimeString(), 250, canvasHeight - 10);
     }
   };
 
@@ -168,7 +250,7 @@ function CustomizationPage() {
   };
 
   photos.forEach(photo => (photo.onload = checkAllLoaded));
-}, [bgColor, selectedFrame, bgMode, textColor, overlay]);
+}, [bgColor, selectedFrame, bgMode, textColor, customFont, overlay, showDate, showTime]);
 
 
   return (
@@ -178,10 +260,10 @@ function CustomizationPage() {
       </h1>
 
       <div className="p-6 flex justify-start items-start">
-        <canvas ref={canvasRef} className="border-2 border-gray-300 shadow-lg" />
+        <canvas ref={canvasRef} className="border-2 border-gray-300 shadow-lg tracking-widest" />
 
         {/* Customization controls */}
-        <div className="flex flex-col gap-2 justify-start mt-4 ml-12 font-semibold tracking-wide">
+        <div className="flex flex-col gap-4 justify-start mt-4 ml-12 font-semibold tracking-wide">
           {/* Frame color */}
           <h1 className="text-md text-gray-500">Frame Color:</h1>
           <div className="flex flex-wrap gap-2 justify-start">
@@ -271,7 +353,54 @@ function CustomizationPage() {
                 style={{ backgroundColor: color }}
               />
             ))}
+
+            {fontPreviews.map((fontItem, index) => (
+              <button
+                key={index}
+                onClick={() => setCustomFont(fontItem.font)}
+                className={`w-13 h-13 rounded-lg border-2 ${
+                  customFont === fontItem.font ? 'border-indigo-500' : 'border-gray-300'
+                } cursor-pointer`}
+                style={{
+                  backgroundImage: `url(${fontItem.preview})`,
+                  backgroundSize: 'contain',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                }}
+              />
+            ))}
           </div>
+          {/* show date and time */}
+            <div className="flex gap-4">
+              <label className="flex items-center cursor-pointer space-x-2">
+                <span className="text-sm text-gray-700">Add Date</span>
+                <div className="relative">
+                  <input
+                    type="checkbox"
+                    checked={showDate}
+                    onChange={() => setShowDate(!showDate)}
+                    className="sr-only peer"
+                  />
+                  <div className="w-10 h-5 bg-gray-300 rounded-full peer-checked:bg-indigo-500 transition-colors duration-300"></div>
+                  <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 peer-checked:translate-x-5"></div>
+                </div>
+              </label>
+
+              <label className="flex items-center cursor-pointer space-x-2">
+                <span className="text-sm text-gray-700">Add Time</span>
+                <div className="relative">
+                  <input
+                    type="checkbox"
+                    checked={showTime}
+                    onChange={() => setShowTime(!showTime)}
+                    className="sr-only peer"
+                  />
+                  <div className="w-10 h-5 bg-gray-300 rounded-full peer-checked:bg-indigo-500 transition-colors duration-300"></div>
+                  <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 peer-checked:translate-x-5"></div>
+                </div>
+              </label>
+            </div>
+
         </div>
       </div>
     </div>
