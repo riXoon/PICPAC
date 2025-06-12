@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { QRCodeCanvas } from 'qrcode.react';
-import QRCode from 'qrcode';
 
 import ColorPicker from '../components/ColorPicker';
-import { uploadToImgur } from '../utils/uploadToImgur';
+
 
 import TemplateA1 from '/templates/LayoutA/layoutA-template1.png';
 import TemplateA2 from '/templates/LayoutA/layoutA-template2.png';
@@ -166,11 +164,6 @@ function CustomizationPage() {
 
   const [overlay, setOverlay] = useState(0);
 
-  const [showQRModal, setShowQRModal] = useState(false);
-  const [qrValue, setQrValue] = useState("");
-  const [isUploading, setIsUploading] = useState(false);
-
-
   const [customFont, setCustomFont] = useState('bold 20px Fredoka, sans-serif');
 
   useEffect(() => {
@@ -290,50 +283,6 @@ function CustomizationPage() {
 }, [bgColor, selectedFrame, bgMode, textColor, customFont, overlay, showDate, showTime]);
 
 
-   const handleShare = async () => {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-
-      canvas.toBlob(async (blob) => {
-        if (!blob) return;
-
-        setIsUploading(true);
-
-        const formData = new FormData();
-        formData.append("image", blob);
-
-        try {
-          const response = await fetch("https://api.imgur.com/3/image", {
-            method: "POST",
-            headers: {
-              Authorization: `Client-ID ${import.meta.env.VITE_IMGUR_CLIENT_ID}`,
-            },
-            body: formData,
-          });
-
-          const data = await response.json();
-          console.log("Imgur response:", data);
-
-          if (!data.success) {
-            console.error("Upload error:", data);
-            alert("Failed to upload to Imgur.");
-            return;
-          }
-
-          const imageUrl = data.data.link;
-          setQrValue(imageUrl);
-          setShowQRModal(true);
-        } catch (error) {
-          console.error("Upload failed", error);
-          alert("Upload failed. Check console for details.");
-        } finally {
-          setIsUploading(false);
-        }
-      }, "image/jpeg");
-    };
-
-
-
 
   return (
     <div className="bg-[#D1E9F6] min-h-screen p-8">
@@ -413,7 +362,6 @@ function CustomizationPage() {
                 }}
               />
             ))}
-          
           </div>
 
           {/* text colors */}
@@ -505,41 +453,6 @@ function CustomizationPage() {
                   Download Photo
                 </button>
 
-                <button
-                  onClick={handleShare}
-                  disabled={isUploading}
-                  className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition hidden"
-                >
-                  {isUploading ? "Uploading..." : "Show QR Code"}
-                </button>
-
-
-
-                {showQRModal && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                  <div className="bg-white p-6 rounded-lg text-center max-w-sm w-full">
-                    <h2 className="text-xl font-semibold mb-4">Share your photo!</h2>
-                    <p className="text-sm mb-2">Scan this QR code to view or download your image</p>
-                    <div className="flex justify-center">
-                      <QRCodeCanvas value={qrValue} size={200} />
-                    </div>
-                    <a
-                      href={qrValue}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block mt-4 text-blue-500 underline text-sm"
-                    >
-                      Or click here to view the image
-                    </a>
-                    <button
-                      onClick={() => setShowQRModal(false)}
-                      className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-              )}
               </div>
         </div>
       </div>
