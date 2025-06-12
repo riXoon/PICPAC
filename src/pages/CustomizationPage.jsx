@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { QRCodeCanvas } from 'qrcode.react';
+import QRCode from 'qrcode';
 
 import ColorPicker from '../components/ColorPicker';
+import { uploadToImgur } from '../utils/uploadToImgur';
 
 import TemplateA1 from '/templates/LayoutA/layoutA-template1.png';
 import TemplateA2 from '/templates/LayoutA/layoutA-template2.png';
@@ -45,7 +48,6 @@ import FontPreview2 from '/overlays/Preview/FontPreview2.png';
 import FontPreview3 from '/overlays/Preview/FontPreview3.png';
 import FontPreview4 from '/overlays/Preview/FontPreview4.png';
 import FontPreview5 from '/overlays/Preview/FontPreview5.png';
-import FontPreview6 from '/overlays/Preview/FontPreview6.png';
 import FontPreview7 from '/overlays/Preview/FontPreview7.png';
 
 
@@ -164,7 +166,22 @@ function CustomizationPage() {
 
   const [overlay, setOverlay] = useState(0);
 
+  const [showQRModal, setShowQRModal] = useState(false);
+  const [qrValue, setQrValue] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+
+
   const [customFont, setCustomFont] = useState('bold 20px Fredoka, sans-serif');
+
+  useEffect(() => {
+    if (!capturedPhotos || capturedPhotos.length === 0) {
+      navigate("/layout-selection");
+    }
+  }, [capturedPhotos, navigate]);
+
+    useEffect(() => {
+    setSelectedFrameIndex(0);
+  }, [layoutType]);
 
   useEffect(() => {
   const canvas = canvasRef.current;
@@ -177,15 +194,30 @@ function CustomizationPage() {
   canvas.height = canvasHeight;
 
   const drawPhotos = () => {
-    const boxes = [
-      { x: 20, y: 20, width: 260, height: 165 },
-      { x: 20, y: 200, width: 260, height: 165 },
-      { x: 20, y: 380, width: 260, height: 165 },
-    ];
+   const boxes = {
+      A: [
+        { x: 20, y: 20, width: 260, height: 165 },
+        { x: 20, y: 200, width: 260, height: 165 },
+        { x: 20, y: 380, width: 260, height: 165 },
+      ],
+    }[layoutType] || [];
 
-    photos.forEach((photo, index) => {
-      ctx.drawImage(photo, boxes[index].x, boxes[index].y, boxes[index].width, boxes[index].height);
+   photos.forEach((photo, index) => {
+      const box = boxes[index];
+      if (box) {
+        ctx.save();
+
+        // translate to the right edge of the box and flip
+        ctx.translate(box.x + box.width, box.y);
+        ctx.scale(-1, 1);
+
+        ctx.drawImage(photo, 0, 0, photo.width, photo.height, 0, 0, box.width, box.height);
+
+        ctx.restore();
+      }
     });
+
+
 
     // Draw overlay if selected
     if (overlay) {
@@ -198,7 +230,7 @@ function CustomizationPage() {
         ctx.fillStyle = textColor;
         ctx.font = customFont
         ctx.textAlign = 'center';
-        ctx.fillText('P!CPAC', canvasWidth / 2, canvasHeight - 110);
+        ctx.fillText('P!CPAC', canvasWidth / 2, canvasHeight - 75);
       };
     } else {
       // No overlay, just draw text
@@ -223,10 +255,15 @@ function CustomizationPage() {
       ctx.textAlign = 'center';
       ctx.fillText(now.toLocaleTimeString(), 250, canvasHeight - 10);
     }
+
   };
 
-  const photos = [new Image(), new Image(), new Image()];
-  photos.forEach(photo => (photo.src = '/sampleImage.png'));
+  const photos = capturedPhotos.map((src) => {
+  const img = new Image();
+  img.src = src;
+  return img;
+});
+
 
   let loadedCount = 0;
   const totalToLoad = photos.length;
@@ -251,6 +288,51 @@ function CustomizationPage() {
 
   photos.forEach(photo => (photo.onload = checkAllLoaded));
 }, [bgColor, selectedFrame, bgMode, textColor, customFont, overlay, showDate, showTime]);
+
+
+   const handleShare = async () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      canvas.toBlob(async (blob) => {
+        if (!blob) return;
+
+        setIsUploading(true);
+
+        const formData = new FormData();
+        formData.append("image", blob);
+
+        try {
+          const response = await fetch("https://api.imgur.com/3/image", {
+            method: "POST",
+            headers: {
+              Authorization: `Client-ID ${import.meta.env.VITE_IMGUR_CLIENT_ID}`,
+            },
+            body: formData,
+          });
+
+          const data = await response.json();
+          console.log("Imgur response:", data);
+
+          if (!data.success) {
+            console.error("Upload error:", data);
+            alert("Failed to upload to Imgur.");
+            return;
+          }
+
+          const imageUrl = data.data.link;
+          setQrValue(imageUrl);
+          setShowQRModal(true);
+        } catch (error) {
+          console.error("Upload failed", error);
+          alert("Upload failed. Check console for details.");
+        } finally {
+          setIsUploading(false);
+        }
+      }, "image/jpeg");
+    };
+
+
 
 
   return (
@@ -401,6 +483,64 @@ function CustomizationPage() {
               </label>
             </div>
 
+              {/* save / Back buttons */}
+              <div className='mt-6 flex gap-4 justify-end ml-5'>
+                <button
+                  onClick={() => navigate(-1)}
+                  className='px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition cursor-pointer'
+                >
+                  Retake
+                </button>
+
+                <button
+                  onClick={() => {
+                    const canvas = canvasRef.current;
+                    const link = document.createElement('a');
+                    link.download = 'p!cpac_photo.jpg';
+                    link.href = canvas.toDataURL();
+                    link.click();
+                  }}
+                  className='px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 transition'
+                >
+                  Download Photo
+                </button>
+
+                <button
+                  onClick={handleShare}
+                  disabled={isUploading}
+                  className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition hidden"
+                >
+                  {isUploading ? "Uploading..." : "Show QR Code"}
+                </button>
+
+
+
+                {showQRModal && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                  <div className="bg-white p-6 rounded-lg text-center max-w-sm w-full">
+                    <h2 className="text-xl font-semibold mb-4">Share your photo!</h2>
+                    <p className="text-sm mb-2">Scan this QR code to view or download your image</p>
+                    <div className="flex justify-center">
+                      <QRCodeCanvas value={qrValue} size={200} />
+                    </div>
+                    <a
+                      href={qrValue}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block mt-4 text-blue-500 underline text-sm"
+                    >
+                      Or click here to view the image
+                    </a>
+                    <button
+                      onClick={() => setShowQRModal(false)}
+                      className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              )}
+              </div>
         </div>
       </div>
     </div>
