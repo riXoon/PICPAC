@@ -25,18 +25,27 @@ export default function LayoutSelection() {
         <p className="text-sm">note: you have 5 seconds for each shot.</p>
       </div>
 
-      <div className="flex flex-wrap gap-6 justify-center max-w-7xl mx-auto">
+      <div className="flex gap-6 justify-center max-w-7xl mx-auto">
         {layouts.map(({ id, Component }) => (
+      <div key={id} className="flex flex-col items-center">
           <div
-            key={id}
             onClick={() => handleSelect(id)}
             className={`bg-white rounded-lg shadow-md p-4 text-center transition-transform transform duration-500 hover:scale-105 active:scale-95 cursor-pointer ${
               id === 'D' ? 'w-[350px]' : 'w-[200px]'
             }`}
+            style={{ minHeight: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
           >
             <Component />
           </div>
+
+          <h1 className="mt-2 text-md tracking-wider font-semibold text-indigo-500 text-center">
+            Layout {id}
+          </h1>
+        </div>
+
         ))}
+
+        
       </div>
     </div>
   );
