@@ -47,7 +47,6 @@ const filters = [
   {filterName: "Muted", value: "saturate(0.6) contrast(0.9)",  },
   {filterName: "Golden Hour", value: "sepia(0.4) brightness(1.1) contrast(1.05)",image: Filter10 },
   {filterName: "Peachy", value: "sepia(0.2) hue-rotate(-10deg) brightness(1.2)", image: Filter8 },
-  
 ]
 
 export default function Photobooth() {
