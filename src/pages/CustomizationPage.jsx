@@ -119,7 +119,7 @@ function CustomizationPage() {
         ctx.fillStyle = textColor;
         ctx.font = customFont
         ctx.textAlign = 'center';
-        ctx.fillText('P!CPAC', layoutWidth[layoutType] / 2, textY);
+        ctx.fillText('P!CPAC', layoutWidth[layoutType] / 2, canvasHeight - 75);
       };
     } else {
       // No overlay, just draw text
