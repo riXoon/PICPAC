@@ -2,145 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import ColorPicker from '../components/ColorPicker';
+import { allTemplate, allOverlays, preview, fontPreviews, presetColors, presetTextColors } from '../data/customization';
 
-
-import TemplateA1 from '/templates/LayoutA/layoutA-template1.png';
-import TemplateA2 from '/templates/LayoutA/layoutA-template2.png';
-import TemplateA3 from '/templates/LayoutA/layoutA-template3.png';
-import TemplateA4 from '/templates/LayoutA/layoutA-template4.png';
-import TemplateA5 from '/templates/LayoutA/layoutA-template5.png';
-import TemplateA6 from '/templates/LayoutA/layoutA-template6.png';
-import TemplateA7 from '/templates/LayoutA/layoutA-template7.png';
-import TemplateA8 from '/templates/LayoutA/layoutA-template8.png';
-import TemplateA9 from '/templates/LayoutA/layoutA-template9.png';
-import Template10 from '/templates/LayoutA/layoutA-template10.png';
-import Template11 from '/templates/LayoutA/layoutA-template11.png';
-import Template12 from '/templates/LayoutA/layoutA-template12.png';
-import Template13 from '/templates/LayoutA/layoutA-template13.png';
-
-import OverlayA1 from '/overlays/LayoutA/layoutA-overlay1.png';
-import OverlayA2 from '/overlays/LayoutA/layoutA-overlay2.png';
-import OverlayA3 from '/overlays/LayoutA/layoutA-overlay3.png';
-import OverlayA4 from '/overlays/LayoutA/layoutA-overlay4.png';
-import OverlayA5 from '/overlays/LayoutA/layoutA-overlay5.png';
-import OverlayA6 from '/overlays/LayoutA/layoutA-overlay6.png';
-import OverlayA7 from '/overlays/LayoutA/layoutA-overlay7.png';
-import OverlayA8 from '/overlays/LayoutA/layoutA-overlay8.png';
-import OverlayA9 from '/overlays/LayoutA/layoutA-overlay9.png';
-import OverlayA10 from '/overlays/LayoutA/layoutA-overlay10.png';
-
-import Preview1 from '/overlays/Preview/stickerPreview1.png';
-import Preview2 from '/overlays/Preview/stickerPreview2.png';
-import Preview3 from '/overlays/Preview/stickerPreview3.png';
-import Preview4 from '/overlays/Preview/stickerPreview4.png';
-import Preview5 from '/overlays/Preview/stickerPreview5.png';
-import Preview6 from '/overlays/Preview/stickerPreview6.png';
-import Preview7 from '/overlays/Preview/stickerPreview7.png';
-import Preview8 from '/overlays/Preview/stickerPreview8.png';
-import Preview9 from '/overlays/Preview/stickerPreview9.png';
-import Preview10 from '/overlays/Preview/stickerPreview10.png';
-import Null from '/overlays/Preview/stickerPreviewNull.png';
-
-import FontPreview1 from '/overlays/Preview/FontPreview1.png';
-import FontPreview2 from '/overlays/Preview/FontPreview2.png';
-import FontPreview3 from '/overlays/Preview/FontPreview3.png';
-import FontPreview4 from '/overlays/Preview/FontPreview4.png';
-import FontPreview5 from '/overlays/Preview/FontPreview5.png';
-import FontPreview7 from '/overlays/Preview/FontPreview7.png';
-
-
-const allTemplate = {
-  A: [
-    { background: TemplateA1 },
-    { background: TemplateA2 },
-    { background: TemplateA3 },
-    { background: TemplateA4 },
-    { background: TemplateA5 },
-    { background: TemplateA6 },
-    { background: TemplateA7 },
-    { background: TemplateA8 },
-    { background: TemplateA9 },
-    { background: Template10},
-    { background: Template11},
-    { background: Template12},
-    { background: Template13 },
-
-  ],
-};
-
-const presetColors = [
-  // Light Pastels
-  '#ffffff', '#F2D7D5', '#FAD7A0', '#F9E79F', '#D7BDE2',
-  '#A3E4D7', '#AED6F1', '#E8DAEF', '#FDEBD0', '#E8F8F5',
-
-  // Vivid/Bright
-  '#FF6B6B', '#F39C12', '#5DADE2', '#58D68D', '#AF7AC5',
-
-  // Neutral Tones
-  '#D5DBDB', '#BFC9CA', '#AAB7B8', '#85929E',
-
-  // Dark Colors
-  '#000000', '#2C3E50', '#1C2833', '#4D5656', '#212F3D', '#17202A',
-];
-
-const presetTextColors = [
-  // Light Pastels
-  '#ffffff', '#AED6F1',
-  // Vivid/Bright
-  '#FF6B6B', '#F39C12',
-  // Neutral Tones
-  '#D5DBDB', '#BFC9CA',
-  // Dark Colors
-  '#000000', '#2C3E50',,
-];
-
-const allOverlays = {
-  A: [
-    { overlay: null},
-    { overlay: OverlayA1},
-    { overlay: OverlayA2},
-    { overlay: OverlayA3},
-    { overlay: OverlayA4},
-    { overlay: OverlayA5},
-    { overlay: OverlayA6},
-    { overlay: OverlayA7},
-    { overlay: OverlayA8},
-    { overlay: OverlayA9},
-    { overlay: OverlayA10},
-  ]
-}
-
-const preview = [
-  { preview: Null },
-  { preview: Preview1 },
-  { preview: Preview2 },
-  { preview: Preview3 },
-  { preview: Preview4 },
-  { preview: Preview5 },
-  { preview: Preview6 },
-  { preview: Preview7 },
-  { preview: Preview8 },
-  { preview: Preview9 },
-  { preview: Preview10 },
-]
-
-const fonts = {
-  Fredoka: 'bold 20px Fredoka, sans-serif',
-  Bungee: 'bold 20px Bungee, sans-serif',
-  Chewy: 'bold 20px Chewy, sans-serif',
-  Luckiest: 'bold 20px Luckiest Guy, sans-serif',
-  Boogaloo: 'bold 20px Boogaloo, sans-serif',
-  Monoton: 'bold 20px Monoton, cursive',
-}
-
-const fontPreviews = [
-  { preview: FontPreview1, font: fonts.Fredoka },
-  { preview: FontPreview2, font: fonts.Bungee },
-  { preview: FontPreview3, font: fonts.Chewy },
-  { preview: FontPreview4, font: fonts.Luckiest },
-  { preview: FontPreview5, font: fonts.Boogaloo },
-  { preview: FontPreview7, font: fonts.Monoton },
-];
 
 
 function CustomizationPage() {
@@ -183,7 +46,14 @@ function CustomizationPage() {
   const canvasWidth = 300;
   const canvasHeight = 700;
 
-  canvas.width = canvasWidth;
+  const layoutWidth = {
+    A: 300,
+    B: 300,
+    C: 300,
+    D: 550,
+  }
+
+  canvas.width = layoutWidth[layoutType] || 300;
   canvas.height = canvasHeight;
 
   const drawPhotos = () => {
@@ -193,6 +63,27 @@ function CustomizationPage() {
         { x: 20, y: 200, width: 260, height: 165 },
         { x: 20, y: 380, width: 260, height: 165 },
       ],
+      B: [
+        { x: 20, y: 20, width: 260, height: 130 },
+        { x: 20, y: 160, width: 260, height: 130 },
+        { x: 20, y: 300, width: 260, height: 130 },
+        { x: 20, y: 440, width: 260, height: 130 },
+      ],
+      C: [
+        { x: 20, y: 20, width: 260, height: 250 },
+        { x: 20, y: 300, width: 260, height: 250 },
+      ],
+
+      D: [
+        { x: 20, y: 20, width: 250, height: 165 },
+        { x: 280, y: 20, width: 250, height: 165 },
+        { x: 20, y: 195, width: 250, height: 165 },
+        { x: 280, y: 195, width: 250, height: 165 },
+        { x: 20, y: 370, width: 250, height: 165 },
+        { x: 280, y: 370, width: 250, height: 165 },
+      ],
+
+
     }[layoutType] || [];
 
    photos.forEach((photo, index) => {
@@ -210,27 +101,32 @@ function CustomizationPage() {
       }
     });
 
+    const textPositions = {
+      A: canvasHeight - 110,
+      B: canvasHeight - 60,
+    }
 
+    const textY = textPositions[layoutType] || canvasHeight - 75;
 
     // Draw overlay if selected
     if (overlay) {
       const overlayImage = new Image();
       overlayImage.src = overlay;
       overlayImage.onload = () => {
-        ctx.drawImage(overlayImage, 0, 0, canvasWidth, canvasHeight - 80);
+        ctx.drawImage(overlayImage, 0, 0, layoutWidth[layoutType], canvasHeight - 80);
 
         // Draw logo/text on top of the overlay
         ctx.fillStyle = textColor;
         ctx.font = customFont
         ctx.textAlign = 'center';
-        ctx.fillText('P!CPAC', canvasWidth / 2, canvasHeight - 75);
+        ctx.fillText('P!CPAC', layoutWidth[layoutType] / 2, textY);
       };
     } else {
       // No overlay, just draw text
       ctx.fillStyle = textColor;
       ctx.font = customFont;
       ctx.textAlign = 'center';
-      ctx.fillText('P!CPAC', canvasWidth / 2, canvasHeight - 110);
+      ctx.fillText('P!CPAC', layoutWidth[layoutType] / 2, textY);
     }
 
     const now = new Date();
@@ -242,13 +138,21 @@ function CustomizationPage() {
       ctx.fillText(now.toLocaleDateString(), 50, canvasHeight - 10);
     }
 
+    const timeTextY  = {
+      A: 255,
+      B: 255,
+      C: 255,
+      D: 505,
+    }
+
+    const timeX = timeTextY[layoutType] || 255;
+
     if (showTime) {
       ctx.fillStyle = textColor;
       ctx.font = '14px Fredoka, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(now.toLocaleTimeString(), 250, canvasHeight - 10);
+      ctx.fillText(now.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}), timeX, canvasHeight - 10);
     }
-
   };
 
   const photos = capturedPhotos.map((src) => {
@@ -266,13 +170,13 @@ function CustomizationPage() {
     if (loadedCount === totalToLoad) {
       if (bgMode === 'color') {
         ctx.fillStyle = bgColor;
-        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        ctx.fillRect(0, 0, layoutWidth[layoutType], canvasHeight);
         drawPhotos();
       } else if (bgMode === 'image') {
         const bgImage = new Image();
         bgImage.src = selectedFrame?.background;
         bgImage.onload = () => {
-          ctx.drawImage(bgImage, 0, 0, canvasWidth, canvasHeight);
+          ctx.drawImage(bgImage, 0, 0, layoutWidth[layoutType], canvasHeight);
           drawPhotos();
         };
       }
