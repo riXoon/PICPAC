@@ -18,7 +18,7 @@ function Home() {
   }
 
   return (
-    <section className='bg-zinc-50 mt-4 min-h-screen shadow-md flex flex-row justify-center items-center'>
+    <section className='bg-zinc-50 mt-4 min-h-screen shadow-md flex flex-row justify-center items-center rounded-md'>
       {/* left container */}
       <div>
           <img src={HeroPhoto} alt="Hero Photo" className='h-140 w-auto relative bottom-20' />
