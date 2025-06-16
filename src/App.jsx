@@ -8,6 +8,7 @@ import Faq from './pages/FAQs.jsx';
 import LayoutSelection from './pages/LayoutSelection.jsx';
 import Photobooth from './pages/Photobooth.jsx'
 import CustomizationPage from './pages/CustomizationPage.jsx';
+import PhotoGallery from './pages/PhotoGallery.jsx';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             element={
               <>
                 <Home />
+                <PhotoGallery />
                 <About />
               </>
             }
