@@ -23,6 +23,28 @@ import OverlayA8 from '/overlays/LayoutA/layoutA-overlay8.png';
 import OverlayA9 from '/overlays/LayoutA/layoutA-overlay9.png';
 import OverlayA10 from '/overlays/LayoutA/layoutA-overlay10.png';
 
+import OverlayB1 from '/overlays/LayoutB/layoutB-overlay1.png';
+import OverlayB2 from '/overlays/LayoutB/layoutB-overlay2.png';
+import OverlayB3 from '/overlays/LayoutB/layoutB-overlay3.png';
+import OverlayB4 from '/overlays/LayoutB/layoutB-overlay4.png';
+import OverlayB5 from '/overlays/LayoutB/layoutB-overlay5.png';
+import OverlayB6 from '/overlays/LayoutB/layoutB-overlay6.png';
+import OverlayB7 from '/overlays/LayoutB/layoutB-overlay7.png';
+import OverlayB8 from '/overlays/LayoutB/layoutB-overlay8.png';
+import OverlayB9 from '/overlays/LayoutB/layoutB-overlay9.png';
+import OverlayB10 from '/overlays/LayoutB/layoutB-overlay10.png';
+
+import OverlayC1 from '/overlays/LayoutC/layoutC-overlay1.png';
+import OverlayC2 from '/overlays/LayoutC/layoutC-overlay2.png';
+import OverlayC3 from '/overlays/LayoutC/layoutC-overlay3.png';
+import OverlayC4 from '/overlays/LayoutC/layoutC-overlay4.png';
+import OverlayC5 from '/overlays/LayoutC/layoutC-overlay5.png';
+import OverlayC6 from '/overlays/LayoutC/layoutC-overlay6.png';
+import OverlayC7 from '/overlays/LayoutC/layoutC-overlay7.png';
+import OverlayC8 from '/overlays/LayoutC/layoutC-overlay8.png';
+import OverlayC9 from '/overlays/LayoutC/layoutC-overlay9.png';
+import OverlayC10 from '/overlays/LayoutC/layoutC-overlay10.png';
+
 import Preview1 from '/overlays/Preview/stickerPreview1.png';
 import Preview2 from '/overlays/Preview/stickerPreview2.png';
 import Preview3 from '/overlays/Preview/stickerPreview3.png';
@@ -148,29 +170,29 @@ export const allOverlays = {
   ],
   B: [
     { overlay: null},
-    { overlay: OverlayA1},
-    { overlay: OverlayA2},
-    { overlay: OverlayA3},
-    { overlay: OverlayA4},
-    { overlay: OverlayA5},
-    { overlay: OverlayA6},
-    { overlay: OverlayA7},
-    { overlay: OverlayA8},
-    { overlay: OverlayA9},
-    { overlay: OverlayA10},
+    { overlay: OverlayB1},
+    { overlay: OverlayB2},
+    { overlay: OverlayB3},
+    { overlay: OverlayB4},
+    { overlay: OverlayB5},
+    { overlay: OverlayB6},
+    { overlay: OverlayB7},
+    { overlay: OverlayB8},
+    { overlay: OverlayB9},
+    { overlay: OverlayB10},
   ],
   C: [
     { overlay: null},
-    { overlay: OverlayA1},
-    { overlay: OverlayA2},
-    { overlay: OverlayA3},
-    { overlay: OverlayA4},
-    { overlay: OverlayA5},
-    { overlay: OverlayA6},
-    { overlay: OverlayA7},
-    { overlay: OverlayA8},
-    { overlay: OverlayA9},
-    { overlay: OverlayA10},
+    { overlay: OverlayC1},
+    { overlay: OverlayC2},
+    { overlay: OverlayC3},
+    { overlay: OverlayC4},
+    { overlay: OverlayC5},
+    { overlay: OverlayC6},
+    { overlay: OverlayC7},
+    { overlay: OverlayC8},
+    { overlay: OverlayC9},
+    { overlay: OverlayC10},
   ],
   D: [
     { overlay: null},
