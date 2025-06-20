@@ -73,7 +73,7 @@ export default function About() {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 px-6 bg-white text-center">
+      <section className="py-20 px-6 bg-white text-center rounded-b-md shadow-md">
         <h2 className="text-3xl font-bold text-indigo-500 mb-12 animate-fadeIn">Meet the Team</h2>
         <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 max-w-6xl mx-auto">
           {teamMembers.map((member, index) => (
@@ -95,10 +95,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="text-center text-sm text-white py-8 bg-[#8DBCC7]">
-        © {new Date().getFullYear()} <strong>P!CPAC</strong> — Say Cheese, Anytime, Anywhere. ✨
-      </footer>
+      
     </div>
   );
 }
