@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Modal from '../components/Modal';
+
 
 import ColorPicker from '../components/ColorPicker';
 import { allTemplate, allOverlays, preview, fontPreviews, presetColors, presetTextColors } from '../data/customization';
@@ -24,6 +26,13 @@ function CustomizationPage() {
 
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
+
+  const [modal, setModal] = useState({
+  show: false,
+  message: '',
+  onConfirm: null,
+});
+
 
   const [overlay, setOverlay] = useState(0);
 
@@ -121,29 +130,45 @@ function CustomizationPage() {
 
     const textY = textPositions[layoutType] || canvasHeight - 75;
 
+    const overlayPlacement = {
+      A: { x: 10, y: 10, width: 280, height: 605 },
+      B: { x: 15, y: 15, width: 270, height: 605 },
+      C: { x: 20, y: 30, width: 260, height: 605 },
+      D: { x: 15, y: 15, width: 520, height: 540 },
+    };
+
+    // Replace this part of your overlay draw logic:
     if (overlay) {
       const overlayImage = new Image();
       overlayImage.src = overlay;
 
       overlayImage.onload = () => {
-        drawImageInBox(overlayImage, {
-          x: 0,
-          y: 0,
-          width: layoutWidth[layoutType],
-          height: canvasHeight - 80,
-        }, ctx);
+        const placement = overlayPlacement[layoutType];
 
+        if (placement) {
+          ctx.drawImage(
+            overlayImage,
+            placement.x,
+            placement.y,
+            placement.width,
+            placement.height
+          );
+        }
+
+        // Draw text/logo after overlay
         ctx.fillStyle = textColor;
         ctx.font = customFont;
         ctx.textAlign = 'center';
         ctx.fillText('P!CPAC', layoutWidth[layoutType] / 2, canvasHeight - 65);
       };
     } else {
+      // No overlay, draw text/logo directly
       ctx.fillStyle = textColor;
       ctx.font = customFont;
       ctx.textAlign = 'center';
       ctx.fillText('P!CPAC', layoutWidth[layoutType] / 2, textY);
     }
+
 
     const now = new Date();
 
@@ -365,17 +390,34 @@ function CustomizationPage() {
                 </button>
 
                 <button
-                  onClick={() => {
-                    const canvas = canvasRef.current;
-                    const link = document.createElement('a');
-                    link.download = 'p!cpac_photo.jpg';
-                    link.href = canvas.toDataURL();
-                    link.click();
-                  }}
-                  className='px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 transition'
-                >
-                  Download Photo
-                </button>
+                onClick={() =>
+                  setModal({
+                    show: true,
+                    message: "Are you sure you want to download your customized photo?",
+                    onConfirm: () => {
+                      const canvas = canvasRef.current;
+                      const link = document.createElement('a');
+                      link.download = 'p!cpac_photo.jpg';
+                      link.href = canvas.toDataURL();
+                      link.click();
+                    },
+                  })
+                }
+                className="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 transition"
+              >
+                Download Photo
+              </button>
+
+               <Modal
+                show={modal.show}
+                title="📸 Confirm Download"
+                message="Are you sure you want to download your customized photo?"
+                confirmText="Yes, Download"
+                cancelText="Cancel"
+                onConfirm={modal.onConfirm}
+                onClose={() => setModal({ ...modal, show: false })}
+              />
+
 
               </div>
         </div>
