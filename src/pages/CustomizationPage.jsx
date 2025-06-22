@@ -30,16 +30,6 @@ function CustomizationPage() {
   const [customFont, setCustomFont] = useState('bold 20px Fredoka, sans-serif');
 
   useEffect(() => {
-    if (!capturedPhotos || capturedPhotos.length === 0) {
-      navigate("/layout-selection");
-    }
-  }, [capturedPhotos, navigate]);
-
-    useEffect(() => {
-    setSelectedFrameIndex(0);
-  }, [layoutType]);
-
-  useEffect(() => {
   const canvas = canvasRef.current;
   const ctx = canvas.getContext('2d');
 
@@ -51,13 +41,40 @@ function CustomizationPage() {
     B: 300,
     C: 300,
     D: 550,
-  }
+  };
 
   canvas.width = layoutWidth[layoutType] || 300;
   canvas.height = canvasHeight;
 
+  const drawImageInBox = (img, box, ctx) => {
+  const imgRatio = img.width / img.height;
+  const boxRatio = box.width / box.height;
+
+  let drawWidth, drawHeight;
+
+  if (imgRatio > boxRatio) {
+    drawHeight = box.height;
+    drawWidth = imgRatio * box.height;
+  } else {
+    drawWidth = box.width;
+    drawHeight = box.width / imgRatio;
+  }
+
+  const offsetX = (box.width - drawWidth) / 2;
+  const offsetY = (box.height - drawHeight) / 2;
+
+  ctx.drawImage(
+    img,
+    0, 0, img.width, img.height,
+    offsetX, offsetY,
+    drawWidth,
+    drawHeight
+  );
+};
+
+
   const drawPhotos = () => {
-   const boxes = {
+    const boxes = {
       A: [
         { x: 20, y: 20, width: 260, height: 165 },
         { x: 20, y: 200, width: 260, height: 165 },
@@ -73,7 +90,6 @@ function CustomizationPage() {
         { x: 20, y: 20, width: 260, height: 250 },
         { x: 20, y: 300, width: 260, height: 250 },
       ],
-
       D: [
         { x: 20, y: 20, width: 250, height: 165 },
         { x: 280, y: 20, width: 250, height: 165 },
@@ -82,21 +98,18 @@ function CustomizationPage() {
         { x: 20, y: 370, width: 250, height: 165 },
         { x: 280, y: 370, width: 250, height: 165 },
       ],
-
-
     }[layoutType] || [];
 
-   photos.forEach((photo, index) => {
+    photos.forEach((photo, index) => {
       const box = boxes[index];
       if (box) {
         ctx.save();
-
-        // translate to the right edge of the box and flip
         ctx.translate(box.x + box.width, box.y);
-        ctx.scale(-1, 1);
-
-        ctx.drawImage(photo, 0, 0, photo.width, photo.height, 0, 0, box.width, box.height);
-
+        ctx.scale(-1, 1); // mirror effect
+        ctx.beginPath();
+        ctx.rect(0, 0, box.width, box.height);
+        ctx.clip();
+        drawImageInBox(photo, box, ctx);
         ctx.restore();
       }
     });
@@ -104,25 +117,28 @@ function CustomizationPage() {
     const textPositions = {
       A: canvasHeight - 110,
       B: canvasHeight - 60,
-    }
+    };
 
     const textY = textPositions[layoutType] || canvasHeight - 75;
 
-    // Draw overlay if selected
     if (overlay) {
       const overlayImage = new Image();
       overlayImage.src = overlay;
-      overlayImage.onload = () => {
-        ctx.drawImage(overlayImage, 0, 0, layoutWidth[layoutType], canvasHeight - 80);
 
-        // Draw logo/text on top of the overlay
+      overlayImage.onload = () => {
+        drawImageInBox(overlayImage, {
+          x: 0,
+          y: 0,
+          width: layoutWidth[layoutType],
+          height: canvasHeight - 80,
+        }, ctx);
+
         ctx.fillStyle = textColor;
-        ctx.font = customFont
+        ctx.font = customFont;
         ctx.textAlign = 'center';
         ctx.fillText('P!CPAC', layoutWidth[layoutType] / 2, canvasHeight - 65);
       };
     } else {
-      // No overlay, just draw text
       ctx.fillStyle = textColor;
       ctx.font = customFont;
       ctx.textAlign = 'center';
@@ -138,12 +154,12 @@ function CustomizationPage() {
       ctx.fillText(now.toLocaleDateString(), 50, canvasHeight - 10);
     }
 
-    const timeTextY  = {
+    const timeTextY = {
       A: 255,
       B: 255,
       C: 255,
       D: 505,
-    }
+    };
 
     const timeX = timeTextY[layoutType] || 255;
 
@@ -151,16 +167,15 @@ function CustomizationPage() {
       ctx.fillStyle = textColor;
       ctx.font = '14px Fredoka, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(now.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}), timeX, canvasHeight - 10);
+      ctx.fillText(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), timeX, canvasHeight - 10);
     }
   };
 
   const photos = capturedPhotos.map((src) => {
-  const img = new Image();
-  img.src = src;
-  return img;
-});
-
+    const img = new Image();
+    img.src = src;
+    return img;
+  });
 
   let loadedCount = 0;
   const totalToLoad = photos.length;
@@ -176,14 +191,19 @@ function CustomizationPage() {
         const bgImage = new Image();
         bgImage.src = selectedFrame?.background;
         bgImage.onload = () => {
-          ctx.drawImage(bgImage, 0, 0, layoutWidth[layoutType], canvasHeight);
+          drawImageInBox(bgImage, {
+            x: 0,
+            y: 0,
+            width: layoutWidth[layoutType],
+            height: canvasHeight,
+          }, ctx);
           drawPhotos();
         };
       }
     }
   };
 
-  photos.forEach(photo => (photo.onload = checkAllLoaded));
+  photos.forEach((photo) => (photo.onload = checkAllLoaded));
 }, [bgColor, selectedFrame, bgMode, textColor, customFont, overlay, showDate, showTime]);
 
 
@@ -203,7 +223,7 @@ function CustomizationPage() {
           <h1 className="text-md text-gray-500">Frame Color:</h1>
           <div className="flex flex-wrap gap-2 justify-start">
 
-            <ColorPicker 
+            <ColorPicker
               bgColor={bgColor}
               setBgColor={setBgColor}
               setBgMode={setBgMode}
