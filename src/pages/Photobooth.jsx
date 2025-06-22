@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { layoutPhotoCount } from "../data/layouts";
+import Modal from "../components/Modal";
 import LayoutA from "../components/layouts/LayoutA";
 import LayoutB from "../components/layouts/LayoutB";
 import LayoutC from "../components/layouts/LayoutC";
@@ -39,8 +41,17 @@ export default function Photobooth() {
   const [flash, setFlash] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('none')
+  const [selectedPhotoIndexes, setSelectedPhotoIndexes] = useState([]);
+  const [retakeMode, setRetakeMode] = useState(false);
+  const [retakeQueue, setRetakeQueue] = useState([]);
   const countdownRef = useRef(null);
   const photoTakenRef = useRef(false);
+
+  const [modal, setModal] = useState({
+    show: false,
+    message: "",
+    onConfirm: null,
+  })
 
 
  
@@ -70,8 +81,18 @@ export default function Photobooth() {
     setIsVideoReady(true);
   };
 
-  useEffect(() => {
-    if (hasStarted && currentShot < photoCount && isVideoReady) {
+ useEffect(() => {
+    let shouldStartCountdown = false;
+
+    if (hasStarted && isVideoReady) {
+      if (retakeQueue.length > 0) {
+        shouldStartCountdown = true;
+      } else if (currentShot < photoCount) {
+        shouldStartCountdown = true;
+      }
+    }
+
+    if (shouldStartCountdown) {
       setCountdown(5);
       photoTakenRef.current = false;
 
@@ -90,7 +111,9 @@ export default function Photobooth() {
     }
 
     return () => clearInterval(countdownRef.current);
-  }, [currentShot, isVideoReady, photoCount, hasStarted]);
+  }, [hasStarted, isVideoReady, currentShot, photoCount, retakeQueue]);
+
+
 
   const takePhoto = () => {
     const video = videoRef.current;
@@ -114,17 +137,60 @@ export default function Photobooth() {
     setFlash(true);
     setTimeout(() => setFlash(false), 150);
 
-    setCapturedPhotos((prev) => [...prev, dataURL]);
-    setCurrentShot((prev) => prev + 1);
+    if (retakeQueue.length > 0) {
+      const indexToReplace = retakeQueue[0];
+
+      setCapturedPhotos((prev) =>
+        prev.map((photo, idx) => (idx === indexToReplace ? dataURL : photo))
+      );
+
+      setRetakeQueue((prev) => prev.slice(1));
+
+      if (retakeQueue.length === 1) {
+        // All done retaking
+        setHasStarted(false);
+      }
+    } else {
+      setCapturedPhotos((prev) => [...prev, dataURL]);
+      setCurrentShot((prev) => prev + 1);
+    }
   };
 
+
+
   const handleRetake = () => {
-    setCapturedPhotos([]);
-    setCurrentShot(0);
-    setCountdown(5);
-    setHasStarted(false);
-    photoTakenRef.current = false;
+    if (!retakeMode) {
+      setModal({
+        show: true,
+        message:
+          "Select the photo(s) you want to retake by clicking on them.\nThen press Retake again to begin.",
+        onConfirm: () => setRetakeMode(true),
+      });
+      return;
+    }
+
+
+    if (selectedPhotoIndexes.length === 0) {
+      setModal({
+        show: true,
+        message: "No photo selected.\nPlease select one or more photos to retake.",
+      });
+      return;
+    }
+
+
+    // Begin retaking process
+    setRetakeQueue([...selectedPhotoIndexes]);
+    setSelectedPhotoIndexes([]);
+    setRetakeMode(false);
+    setHasStarted(true);
   };
+
+  const handleRetakeConfirm = () => {
+  setModal(false);
+  setRetakeMode(true); // enter retake selection mode
+};
+
 
   const handleDone = () => {
   navigate("/customization", {
@@ -178,7 +244,18 @@ export default function Photobooth() {
               key={index}
               src={photo}
               alt={`Captured ${index + 1}`}
-              className="w-45 h-32 object-cover rounded border animate-slide-in-right -transform -scale-x-100"
+              className={`w-45 h-32 object-cover rounded border cursor-pointer animate-slide-in-right -transform -scale-x-100 ${
+                selectedPhotoIndexes.includes(index) ? "border-indigo-500 border-4" : "border"
+              }`}
+              onClick={() => {
+                if (!retakeMode) return;
+
+                setSelectedPhotoIndexes((prev) =>
+                  prev.includes(index)
+                    ? prev.filter((i) => i !== index)
+                    : [...prev, index]
+                );
+              }}
             />
           ))}
         </div>
@@ -225,6 +302,21 @@ export default function Photobooth() {
             </button>
           ))}
           </div>
+
+          <Modal
+            show={modal.show}
+            title="Retake Photos"
+            message={modal.message}
+            onConfirm={modal.onConfirm}
+            onClose={() => setModal((prev) => ({ ...prev, show: false }))}
+          />
+
+
+
+
+
+
+          
     </div>
   );
 }
