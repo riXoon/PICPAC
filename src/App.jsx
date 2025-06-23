@@ -16,7 +16,7 @@ function App() {
     <Router>
         <StickyNavbar />
         
-        <div className="px-16 py-4">
+        <div className="px-0 py-4 md:px-16">
           <Routes>
             <Route 
               path="/"
