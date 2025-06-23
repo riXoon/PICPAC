@@ -17,20 +17,19 @@ const Contact = () => {
           <p>
             We're all ears! Whether you have a question, a great idea, or hit a snag, please get in touch. Your input helps us get better. 📸
           </p>
-          <p className="mt-4 text-lg">For business partnerships or collaborations, drop us a line—we'd love to chat! 💖</p>
+          <p className="mt-4 text-lg">
+            For business partnerships or collaborations, drop us a line—we'd love to chat! 💖
+          </p>
 
-        <div className="flex items-center gap-4 mt-50">
-        <h1>Follow our socials:</h1>
-        <div className="social-button">
+          <div className="flex items-center gap-4 mt-10 flex-wrap">
+            <h1 className="text-lg font-semibold">Follow our socials:</h1>
+
+            {/* Instagram */}
             <a href="https://www.instagram.com/jadeeerss/" target="_blank" rel="noopener noreferrer">
-                <button className="relative w-12 h-12 rounded-full group">
-                <div
-                    className="floater w-full h-full absolute top-0 left-0 bg-violet-400 rounded-full duration-300 group-hover:-top-8 group-hover:shadow-2xl"
-                ></div>
-                <div
-                    className="icon relative z-10 w-full h-full flex items-center justify-center border-2 border-violet-400 rounded-full"
-                >
-                    <svg
+              <button className="relative w-12 h-12 rounded-full group">
+                <div className="floater absolute top-0 left-0 w-full h-full bg-violet-400 rounded-full duration-300 group-hover:-top-8 group-hover:shadow-2xl" />
+                <div className="icon relative z-10 w-full h-full flex items-center justify-center border-2 border-violet-400 rounded-full">
+                  <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="22"
                     height="22"
@@ -47,44 +46,30 @@ const Contact = () => {
                     ></path>
                     </svg>
                 </div>
-                </button>
+              </button>
             </a>
-        </div>
-        <div className="social-button">
+
+            {/* GitHub */}
             <a href="https://github.com/riXoon" target="_blank" rel="noopener noreferrer">
-                <button className="relative w-12 h-12 rounded-full group">
-                <div
-                    className="floater w-full h-full absolute top-0 left-0 bg-black rounded-full duration-300 group-hover:-top-8 group-hover:shadow-2xl"
-                ></div>
-                <div
-                    className="icon relative z-10 w-full h-full flex items-center justify-center border-2 border-black rounded-full"
-                >
-                    <svg
-                    height="24"
-                    width="24"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    >
+              <button className="relative w-12 h-12 rounded-full group">
+                <div className="floater absolute top-0 left-0 w-full h-full bg-black rounded-full duration-300 group-hover:-top-8 group-hover:shadow-2xl" />
+                <div className="icon relative z-10 w-full h-full flex items-center justify-center border-2 border-black rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path
-                        className="group-hover:fill-[#171543] fill-white duration-300"
-                        d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.17 6.839 9.481.5.092.683-.217.683-.481 0-.237-.009-.866-.013-1.699-2.782.603-3.37-1.338-3.37-1.338-.454-1.15-1.11-1.458-1.11-1.458-.906-.619.069-.606.069-.606 1.002.071 1.527 1.03 1.527 1.03.89 1.529 2.34 1.087 2.911.831.091-.645.348-1.087.634-1.338-2.22-.252-4.555-1.11-4.555-4.94 0-1.09.39-1.986 1.028-2.682-.103-.252-.446-1.268.098-2.642 0 0 .837-.268 2.75 1.024a9.563 9.563 0 012.496-.335 9.58 9.58 0 012.496.335c1.913-1.292 2.75-1.024 2.75-1.024.544 1.374.202 2.39.1 2.642.64.696 1.027 1.592 1.027 2.682 0 3.839-2.338 4.685-4.567 4.933.358.309.678.916.678 1.847 0 1.334-.012 2.412-.012 2.74 0 .267.18.577.688.481A12.01 12.01 0 0022 12c0-5.523-4.477-10-10-10z"
-                        fill="#FFFFFF"
-                    ></path>
-                    </svg>
+                      className="group-hover:fill-[#171543] fill-white duration-300"
+                      d="M12 .3a11.7 11.7 0 0 0-3.7 22.8c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6a3.2 3.2 0 0 0-1.3-1.7c-1.1-.8.1-.8.1-.8a2.6 2.6 0 0 1 1.9 1.3 2.6 2.6 0 0 0 3.5 1 2.6 2.6 0 0 1 .8-1.7c-2.6-.3-5.3-1.3-5.3-5.9a4.6 4.6 0 0 1 1.2-3.2 4.3 4.3 0 0 1 .1-3.2s1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2a4.3 4.3 0 0 1 .1 3.2 4.6 4.6 0 0 1 1.2 3.2c0 4.6-2.7 5.6-5.3 5.9a3 3 0 0 1 .9 2.3v3.3c0 .3.2.7.8.6A11.7 11.7 0 0 0 12 .3z"
+                    />
+                  </svg>
                 </div>
-                </button>
+              </button>
             </a>
-        </div>
-        <div className="social-button">
-            <a href="https://www.linkedin.com/in/erickson-guhilde-836005368/" target='_blank'>
-                <button className="relative w-12 h-12 rounded-full group">
-                <div
-                    className="floater w-full h-full absolute top-0 left-0 bg-blue-500 rounded-full duration-300 group-hover:-top-8 group-hover:shadow-2xl"
-                ></div>
-                <div
-                    className="icon relative z-10 w-full h-full flex items-center justify-center border-2 border-blue-500 rounded-full"
-                >
-                    <svg
+
+            {/* LinkedIn */}
+            <a href="https://www.linkedin.com/in/erickson-guhilde-836005368/" target="_blank" rel="noopener noreferrer">
+              <button className="relative w-12 h-12 rounded-full group">
+                <div className="floater absolute top-0 left-0 w-full h-full bg-blue-500 rounded-full duration-300 group-hover:-top-8 group-hover:shadow-2xl" />
+                <div className="icon relative z-10 w-full h-full flex items-center justify-center border-2 border-blue-500 rounded-full">
+                   <svg
                     height="24"
                     width="24"
                     viewBox="0 0 24 24"
@@ -97,12 +82,9 @@ const Contact = () => {
                     ></path>
                     </svg>
                 </div>
-                </button>
+              </button>
             </a>
-        </div>
-       
-    </div>
-
+          </div>
         </motion.div>
 
         {/* Right: Form */}

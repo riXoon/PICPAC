@@ -234,195 +234,194 @@ function CustomizationPage() {
 
 
   return (
-    <div className="bg-[#D1E9F6] min-h-screen p-8">
-      <h1 className="text-2xl text-gray-500 font-bold tracking-wider text-center mt-4">
-        customize your photo
-      </h1>
+    <div className="bg-[#D1E9F6] min-h-screen p-8 sm:p-6">
+  <h1 className="text-2xl text-gray-500 font-bold tracking-wider text-center mt-4">
+    customize your photo
+  </h1>
 
-      <div className="p-6 flex justify-start items-start">
-        <canvas ref={canvasRef} className="border-2 border-gray-300 shadow-lg tracking-widest" />
-
-        {/* Customization controls */}
-        <div className="flex flex-col gap-4 justify-start mt-4 ml-12 font-semibold tracking-wide">
-          {/* Frame color */}
-          <h1 className="text-md text-gray-500">Frame Color:</h1>
-          <div className="flex flex-wrap gap-2 justify-start">
-
-            <ColorPicker
-              bgColor={bgColor}
-              setBgColor={setBgColor}
-              setBgMode={setBgMode}
-            />
-
-            {presetColors.map((color, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  setBgColor(color);
-                  setBgMode('color');
-                }}
-                className={`w-13 h-13 rounded-lg border-2 ${
-                  bgColor === color && bgMode === 'color' ? 'border-indigo-500' : 'border-gray-300'
-                } cursor-pointer`}
-                style={{ backgroundColor: color }}
-              />
-            ))}
-          </div>
-
-          {/* Frame background templates */}
-          <h1 className="text-md text-gray-500">Frame Background:</h1>
-          <div className="flex flex-wrap gap-2 justify-start">
-            {allTemplate[layoutType].map((frame, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  setSelectedFrameIndex(index);
-                  setBgMode('image');
-                }}
-                className={`w-13 h-13 rounded-lg border-2 ${
-                  selectedFrameIndex === index && bgMode === 'image'
-                    ? 'border-indigo-500'
-                    : 'border-gray-300'
-                } cursor-pointer`}
-                style={{
-                  backgroundImage: `url(${frame.background})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              />
-            ))}
-          </div>
-
-          {/* overlays */}
-
-          <h1 className='text-md text-gray-500'>Stickers:</h1>
-          <div className="flex flex-wrap gap-2 justify-start">
-            {preview.map((overlayItem, index) => (
-              <button
-                key={index}
-                onClick={() => setOverlay(allOverlays[layoutType][index].overlay)}
-                className={`w-13 h-13 rounded-lg border-2 bg-white ${
-                  overlay === overlayItem.preview ? 'border-indigo-500' : 'border-gray-300'
-                } cursor-pointer`}
-                style={{
-                  backgroundImage: `url(${overlayItem.preview})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              />
-            ))}
-          </div>
-
-          {/* text colors */}
-          <h1 className='text-md text-gray-500'>Logo Style:</h1>
-          <div className ="flex flex-wrap gap-2 justify-start">
-            <ColorPicker
-              bgColor={textColor}
-              setBgColor={setTextColor}
-              setBgMode={() => {}} 
-            />
-
-            {presetTextColors.map((color, index ) => (
-              <button 
-                key={index}
-                onClick={() => setTextColor(color)}
-                className={`w-13 h-13 rounded-lg border-2 ${
-                  textColor === color ? 'border-indigo-500' : 'border-gray-300'
-                } cursor-pointer`}
-                style={{ backgroundColor: color }}
-              />
-            ))}
-
-            {fontPreviews.map((fontItem, index) => (
-              <button
-                key={index}
-                onClick={() => setCustomFont(fontItem.font)}
-                className={`w-13 h-13 rounded-lg border-2 ${
-                  customFont === fontItem.font ? 'border-indigo-500' : 'border-gray-300'
-                } cursor-pointer`}
-                style={{
-                  backgroundImage: `url(${fontItem.preview})`,
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center',
-                }}
-              />
-            ))}
-          </div>
-          {/* show date and time */}
-            <div className="flex gap-4">
-              <label className="flex items-center cursor-pointer space-x-2">
-                <span className="text-sm text-gray-700">Add Date</span>
-                <div className="relative">
-                  <input
-                    type="checkbox"
-                    checked={showDate}
-                    onChange={() => setShowDate(!showDate)}
-                    className="sr-only peer"
-                  />
-                  <div className="w-10 h-5 bg-gray-300 rounded-full peer-checked:bg-indigo-500 transition-colors duration-300"></div>
-                  <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 peer-checked:translate-x-5"></div>
-                </div>
-              </label>
-
-              <label className="flex items-center cursor-pointer space-x-2">
-                <span className="text-sm text-gray-700">Add Time</span>
-                <div className="relative">
-                  <input
-                    type="checkbox"
-                    checked={showTime}
-                    onChange={() => setShowTime(!showTime)}
-                    className="sr-only peer"
-                  />
-                  <div className="w-10 h-5 bg-gray-300 rounded-full peer-checked:bg-indigo-500 transition-colors duration-300"></div>
-                  <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 peer-checked:translate-x-5"></div>
-                </div>
-              </label>
-            </div>
-
-              {/* save / Back buttons */}
-              <div className='mt-6 flex gap-4 justify-end ml-5'>
-                <button
-                  onClick={() => navigate(-1)}
-                  className='px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition cursor-pointer'
-                >
-                  Retake
-                </button>
-
-                <button
-                onClick={() =>
-                  setModal({
-                    show: true,
-                    message: "Are you sure you want to download your customized photo?",
-                    onConfirm: () => {
-                      const canvas = canvasRef.current;
-                      const link = document.createElement('a');
-                      link.download = 'p!cpac_photo.jpg';
-                      link.href = canvas.toDataURL();
-                      link.click();
-                    },
-                  })
-                }
-                className="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 transition"
-              >
-                Download Photo
-              </button>
-
-               <Modal
-                show={modal.show}
-                title="📸 Confirm Download"
-                message="Are you sure you want to download your customized photo?"
-                confirmText="Yes, Download"
-                cancelText="Cancel"
-                onConfirm={modal.onConfirm}
-                onClose={() => setModal({ ...modal, show: false })}
-              />
-
-
-              </div>
-        </div>
-      </div>
+  {/* Layout container: column on small, row on lg+ */}
+  <div className="flex flex-col lg:flex-row gap-8 mt-6 items-start justify-start ">
+    
+    {/* Canvas Preview */}
+    <div className="w-full lg:w-auto flex justify-center">
+      <canvas
+        ref={canvasRef}
+        className="border-2 border-gray-300 shadow-lg tracking-widest max-w-full h-auto"
+      />
     </div>
+
+    {/* Customization Controls */}
+    <div className="w-full lg:w-[980px] flex flex-col gap-4 mt-4 lg:mt-0 font-semibold tracking-wide">
+      
+      {/* Frame color */}
+      <h1 className="text-md text-gray-500">Frame Color:</h1>
+      <div className="flex flex-wrap gap-2 justify-start">
+        <ColorPicker bgColor={bgColor} setBgColor={setBgColor} setBgMode={setBgMode} />
+        {presetColors.map((color, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              setBgColor(color);
+              setBgMode('color');
+            }}
+            className={`w-13 h-13 rounded-lg border-2 ${
+              bgColor === color && bgMode === 'color'
+                ? 'border-indigo-500'
+                : 'border-gray-300'
+            } cursor-pointer`}
+            style={{ backgroundColor: color }}
+          />
+        ))}
+      </div>
+
+      {/* Frame background templates */}
+      <h1 className="text-md text-gray-500">Frame Background:</h1>
+      <div className="flex flex-wrap gap-2 justify-start">
+        {allTemplate[layoutType].map((frame, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              setSelectedFrameIndex(index);
+              setBgMode('image');
+            }}
+            className={`w-13 h-13 rounded-lg border-2 ${
+              selectedFrameIndex === index && bgMode === 'image'
+                ? 'border-indigo-500'
+                : 'border-gray-300'
+            } cursor-pointer`}
+            style={{
+              backgroundImage: `url(${frame.background})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Overlays */}
+      <h1 className='text-md text-gray-500'>Stickers:</h1>
+      <div className="flex flex-wrap gap-2 justify-start">
+        {preview.map((overlayItem, index) => (
+          <button
+            key={index}
+            onClick={() => setOverlay(allOverlays[layoutType][index].overlay)}
+            className={`w-13 h-13 rounded-lg border-2 bg-white ${
+              overlay === overlayItem.preview ? 'border-indigo-500' : 'border-gray-300'
+            } cursor-pointer`}
+            style={{
+              backgroundImage: `url(${overlayItem.preview})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Text color and font */}
+      <h1 className='text-md text-gray-500'>Logo Style:</h1>
+      <div className="flex flex-wrap gap-2 justify-start">
+        <ColorPicker bgColor={textColor} setBgColor={setTextColor} setBgMode={() => {}} />
+        {presetTextColors.map((color, index) => (
+          <button
+            key={index}
+            onClick={() => setTextColor(color)}
+            className={`w-13 h-13 rounded-lg border-2 ${
+              textColor === color ? 'border-indigo-500' : 'border-gray-300'
+            } cursor-pointer`}
+            style={{ backgroundColor: color }}
+          />
+        ))}
+        {fontPreviews.map((fontItem, index) => (
+          <button
+            key={index}
+            onClick={() => setCustomFont(fontItem.font)}
+            className={`w-13 h-13 rounded-lg border-2 ${
+              customFont === fontItem.font ? 'border-indigo-500' : 'border-gray-300'
+            } cursor-pointer`}
+            style={{
+              backgroundImage: `url(${fontItem.preview})`,
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Date and Time Toggles */}
+      <div className="flex gap-4 flex-wrap items-center">
+        <label className="flex items-center cursor-pointer space-x-2">
+          <span className="text-sm text-gray-700">Add Date</span>
+          <div className="relative">
+            <input
+              type="checkbox"
+              checked={showDate}
+              onChange={() => setShowDate(!showDate)}
+              className="sr-only peer"
+            />
+            <div className="w-10 h-5 bg-gray-300 rounded-full peer-checked:bg-indigo-500 transition-colors duration-300"></div>
+            <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 peer-checked:translate-x-5"></div>
+          </div>
+        </label>
+
+        <label className="flex items-center cursor-pointer space-x-2">
+          <span className="text-sm text-gray-700">Add Time</span>
+          <div className="relative">
+            <input
+              type="checkbox"
+              checked={showTime}
+              onChange={() => setShowTime(!showTime)}
+              className="sr-only peer"
+            />
+            <div className="w-10 h-5 bg-gray-300 rounded-full peer-checked:bg-indigo-500 transition-colors duration-300"></div>
+            <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 peer-checked:translate-x-5"></div>
+          </div>
+        </label>
+      </div>
+
+      {/* Buttons */}
+      <div className="mt-6 flex gap-4 justify-end">
+        <button
+          onClick={() => navigate(-1)}
+          className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition cursor-pointer"
+        >
+          Retake
+        </button>
+
+        <button
+          onClick={() =>
+            setModal({
+              show: true,
+              message: "Are you sure you want to download your customized photo?",
+              onConfirm: () => {
+                const canvas = canvasRef.current;
+                const link = document.createElement('a');
+                link.download = 'p!cpac_photo.jpg';
+                link.href = canvas.toDataURL();
+                link.click();
+              },
+            })
+          }
+          className="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 transition"
+        >
+          Download Photo
+        </button>
+      </div>
+
+      {/* Modal */}
+      <Modal
+        show={modal.show}
+        title="📸 Confirm Download"
+        message="Are you sure you want to download your customized photo?"
+        confirmText="Yes, Download"
+        cancelText="Cancel"
+        onConfirm={modal.onConfirm}
+        onClose={() => setModal({ ...modal, show: false })}
+      />
+    </div>
+  </div>
+</div>
+
   );
 }
 
