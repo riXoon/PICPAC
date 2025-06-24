@@ -12,6 +12,21 @@ import Template11 from '/templates/LayoutA/layoutA-template11.png';
 import Template12 from '/templates/LayoutA/layoutA-template12.png';
 import Template13 from '/templates/LayoutA/layoutA-template13.png';
 
+import TemplateD1 from '/templates/LayoutD/layoutB-template1.jpg';
+import TemplateD2 from '/templates/LayoutD/layoutB-template2.jpg';
+import TemplateD3 from '/templates/LayoutD/layoutB-template3.jpg';
+import TemplateD4 from '/templates/LayoutD/layoutB-template4.jpg';
+import TemplateD5 from '/templates/LayoutD/layoutB-template5.jpg';
+import TemplateD6 from '/templates/LayoutD/layoutB-template6.jpg';
+import TemplateD7 from '/templates/LayoutD/layoutB-template7.jpg';
+import TemplateD8 from '/templates/LayoutD/layoutB-template8.jpg';
+import TemplateD9 from '/templates/LayoutD/layoutB-template9.jpg';
+import TemplateD10 from '/templates/LayoutD/layoutB-template10.jpg';
+import TemplateD11 from '/templates/LayoutD/layoutB-template11.jpg';
+import TemplateD12 from '/templates/LayoutD/layoutB-template12.jpg';
+
+
+
 import OverlayA1 from '/overlays/LayoutA/layoutA-overlay1.png';
 import OverlayA2 from '/overlays/LayoutA/layoutA-overlay2.png';
 import OverlayA3 from '/overlays/LayoutA/layoutA-overlay3.png';
@@ -44,6 +59,17 @@ import OverlayC7 from '/overlays/LayoutC/layoutC-overlay7.png';
 import OverlayC8 from '/overlays/LayoutC/layoutC-overlay8.png';
 import OverlayC9 from '/overlays/LayoutC/layoutC-overlay9.png';
 import OverlayC10 from '/overlays/LayoutC/layoutC-overlay10.png';
+
+import OverlayD1 from '/overlays/LayoutD/layoutD-overlay1.png';
+import OverlayD2 from '/overlays/LayoutD/layoutD-overlay2.png';
+import OverlayD3 from '/overlays/LayoutD/layoutD-overlay3.png';
+import OverlayD4 from '/overlays/LayoutD/layoutD-overlay4.png';
+import OverlayD5 from '/overlays/LayoutD/layoutD-overlay5.png';
+import OverlayD6 from '/overlays/LayoutD/layoutD-overlay6.png';
+import OverlayD7 from '/overlays/LayoutD/layoutD-overlay7.png';
+import OverlayD8 from '/overlays/LayoutD/layoutD-overlay8.png';
+import OverlayD9 from '/overlays/LayoutD/layoutD-overlay9.png';
+import OverlayD10 from '/overlays/LayoutD/layoutD-overlay10.png';
 
 import Preview1 from '/overlays/Preview/stickerPreview1.png';
 import Preview2 from '/overlays/Preview/stickerPreview2.png';
@@ -113,18 +139,18 @@ export const allTemplate = {
   ],
   D: [
     { background: TemplateA1 },
-    { background: TemplateA2 },
-    { background: TemplateA3 },
-    { background: TemplateA4 },
-    { background: TemplateA5 },
-    { background: TemplateA6 },
-    { background: TemplateA7 },
-    { background: TemplateA8 },
-    { background: TemplateA9 },
-    { background: Template10},
-    { background: Template11},
-    { background: Template12},
-    { background: Template13 },
+    { background: TemplateD1 },
+    { background: TemplateD2 },
+    { background: TemplateD3 },
+    { background: TemplateD4 },
+    { background: TemplateD5 },
+    { background: TemplateD6 },
+    { background: TemplateD7 },
+    { background: TemplateD8 },
+    { background: TemplateD9},
+    { background: TemplateD10},
+    { background: TemplateD11},
+    { background: TemplateD12 },
   ],
 };
 
@@ -196,32 +222,74 @@ export const allOverlays = {
   ],
   D: [
     { overlay: null},
-    { overlay: OverlayA1},
-    { overlay: OverlayA2},
-    { overlay: OverlayA3},
-    { overlay: OverlayA4},
-    { overlay: OverlayA5},
-    { overlay: OverlayA6},
-    { overlay: OverlayA7},
-    { overlay: OverlayA8},
-    { overlay: OverlayA9},
-    { overlay: OverlayA10},
+    { overlay: null},
+    { overlay: null},
+    { overlay: OverlayD3},
+    { overlay: OverlayD4},
+    { overlay: OverlayD5},
+    { overlay: OverlayD6},
+    { overlay: OverlayD7},
+    { overlay: OverlayD8},
+    { overlay: OverlayD9},
+    { overlay: OverlayD10},
   ]
 }
 
-export const preview = [
-  { preview: Null },
-  { preview: Preview1 },
-  { preview: Preview2 },
-  { preview: Preview3 },
-  { preview: Preview4 },
-  { preview: Preview5 },
-  { preview: Preview6 },
-  { preview: Preview7 },
-  { preview: Preview8 },
-  { preview: Preview9 },
-  { preview: Preview10 },
-]
+export const preview = {
+
+  A: [
+    { preview: Null },
+    { preview: Preview1 },
+    { preview: Preview2 },
+    { preview: Preview3 },
+    { preview: Preview4 },
+    { preview: Preview5 },
+    { preview: Preview6 },
+    { preview: Preview7 },
+    { preview: Preview8 },
+    { preview: Preview9 },
+    { preview: Preview10 },
+  ],
+  B: [
+    { preview: Null },
+    { preview: Preview1 },
+    { preview: Preview2 },
+    { preview: Preview3 },
+    { preview: Preview4 },
+    { preview: Preview5 },
+    { preview: Preview6 },
+    { preview: Preview7 },
+    { preview: Preview8 },
+    { preview: Preview9 },
+    { preview: Preview10 },
+  ],
+  C: [
+    { preview: Null },
+    { preview: Preview1 },
+    { preview: Preview2 },
+    { preview: Preview3 },
+    { preview: Preview4 },
+    { preview: Preview5 },
+    { preview: Preview6 },
+    { preview: Preview7 },
+    { preview: Preview8 },
+    { preview: Preview9 },
+    { preview: Preview10 },
+  ],
+  D: [
+    { preview: Null },
+    { preview: null },
+    { preview: null },
+    { preview: null },
+    { preview: Preview4 },
+    { preview: Preview5 },
+    { preview: Preview6 },
+    { preview: Preview7 },
+    { preview: Preview8 },
+    { preview: Preview9 },
+    { preview: Preview10 },
+  ],
+}
 
 export const fonts = {
   Fredoka: 'bold 20px Fredoka, sans-serif',
