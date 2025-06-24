@@ -22,7 +22,7 @@ function CustomizationPage() {
   const [textColor, setTextColor] = useState('#337CCF');
 
   const [bgColor, setBgColor] = useState('#ffffff');
-  const [bgMode, setBgMode] = useState('color'); // 'color' or 'image'\
+  const [bgMode, setBgMode] = useState('color');
 
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
@@ -130,16 +130,26 @@ function CustomizationPage() {
 
     const textY = textPositions[layoutType] || canvasHeight - 75;
 
+    const dateTextX = {
+      A: 150,
+      B: 150,
+      C: 150,
+      D: 275,
+    }
+
+    const dateX = dateTextX[layoutType] || 150;
+
+    //overlay adjustment
     const overlayPlacement = {
       A: { x: 10, y: 10, width: 280, height: 605 },
       B: { x: 15, y: 15, width: 270, height: 605 },
-      C: { x: 20, y: 30, width: 260, height: 605 },
-      D: { x: 15, y: 15, width: 520, height: 540 },
+      C: { x: 20, y: 5, width: 260, height: 615 },
+      D: { x: -7, y: -20, width: 570, height: 675 },
     };
 
-    // Replace this part of your overlay draw logic:
     if (overlay) {
       const overlayImage = new Image();
+      const now = new Date();
       overlayImage.src = overlay;
 
       overlayImage.onload = () => {
@@ -160,40 +170,31 @@ function CustomizationPage() {
         ctx.font = customFont;
         ctx.textAlign = 'center';
         ctx.fillText('P!CPAC', layoutWidth[layoutType] / 2, canvasHeight - 65);
+
+          if (showDate) {
+          ctx.fillStyle = '#6A6A6A';
+          ctx.font = '12px Fredoka, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(now.toLocaleDateString(), dateX, canvasHeight - 40);
+        }
       };
     } else {
       // No overlay, draw text/logo directly
+      const now = new Date();
+
       ctx.fillStyle = textColor;
       ctx.font = customFont;
       ctx.textAlign = 'center';
       ctx.fillText('P!CPAC', layoutWidth[layoutType] / 2, textY);
-    }
 
+        if (showDate) {
+        ctx.fillStyle = '#6A6A6A';
+        ctx.font = '12px Fredoka, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(now.toLocaleDateString(), dateX, canvasHeight - 50);
+        }
+    }   
 
-    const now = new Date();
-
-    if (showDate) {
-      ctx.fillStyle = textColor;
-      ctx.font = '14px Fredoka, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(now.toLocaleDateString(), 50, canvasHeight - 10);
-    }
-
-    const timeTextY = {
-      A: 255,
-      B: 255,
-      C: 255,
-      D: 505,
-    };
-
-    const timeX = timeTextY[layoutType] || 255;
-
-    if (showTime) {
-      ctx.fillStyle = textColor;
-      ctx.font = '14px Fredoka, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), timeX, canvasHeight - 10);
-    }
   };
 
   const photos = capturedPhotos.map((src) => {
@@ -229,7 +230,43 @@ function CustomizationPage() {
   };
 
   photos.forEach((photo) => (photo.onload = checkAllLoaded));
-}, [bgColor, selectedFrame, bgMode, textColor, customFont, overlay, showDate, showTime]);
+}, [bgColor, selectedFrame, bgMode, textColor, customFont, overlay, showDate]);
+
+  const exportHDCanvas = () => {
+    const displayCanvas = canvasRef.current;
+    const scale = 2; // Change to 3 for ultra-HD
+    const layoutWidth = {
+      A: 300,
+      B: 300,
+      C: 300,
+      D: 550,
+    };
+    const canvasWidth = layoutWidth[layoutType];
+    const canvasHeight = 700;
+
+    // Create an off-screen canvas
+    const hdCanvas = document.createElement("canvas");
+    hdCanvas.width = canvasWidth * scale;
+    hdCanvas.height = canvasHeight * scale;
+    const ctx = hdCanvas.getContext("2d");
+
+    // Scale drawing context
+    ctx.scale(scale, scale);
+
+    // Reuse the same drawing logic
+    const clone = canvasRef.current;
+    ctx.drawImage(clone, 0, 0);
+
+    // Export image
+    hdCanvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.download = "p!cpac_photo_hd.png";
+      link.href = url;
+      link.click();
+    }, "image/png", 1);
+  };
+
 
 
 
@@ -301,20 +338,31 @@ function CustomizationPage() {
       {/* Overlays */}
       <h1 className='text-md text-gray-500'>Stickers:</h1>
       <div className="flex flex-wrap gap-2 justify-start">
-        {preview.map((overlayItem, index) => (
+        {preview[layoutType].map((overlayItem, index) => (
           <button
             key={index}
-            onClick={() => setOverlay(allOverlays[layoutType][index].overlay)}
+            onClick={() => setOverlay(allOverlays[layoutType][index]?.overlay || null)}
             className={`w-13 h-13 rounded-lg border-2 bg-white ${
-              overlay === overlayItem.preview ? 'border-indigo-500' : 'border-gray-300'
+              overlay === allOverlays[layoutType][index]?.overlay
+                ? 'border-indigo-500'
+                : 'border-gray-300'
             } cursor-pointer`}
             style={{
-              backgroundImage: `url(${overlayItem.preview})`,
+              backgroundImage: overlayItem.preview
+                ? `url(${overlayItem.preview})`
+                : 'none',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
-          />
+            disabled={!overlayItem.preview}
+          >
+            {/* Optional: fallback or icon if null */}
+            {!overlayItem.preview && (
+              <span className="text-xs text-gray-400">None</span>
+            )}
+          </button>
         ))}
+
       </div>
 
       {/* Text color and font */}
@@ -363,20 +411,6 @@ function CustomizationPage() {
             <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 peer-checked:translate-x-5"></div>
           </div>
         </label>
-
-        <label className="flex items-center cursor-pointer space-x-2">
-          <span className="text-sm text-gray-700">Add Time</span>
-          <div className="relative">
-            <input
-              type="checkbox"
-              checked={showTime}
-              onChange={() => setShowTime(!showTime)}
-              className="sr-only peer"
-            />
-            <div className="w-10 h-5 bg-gray-300 rounded-full peer-checked:bg-indigo-500 transition-colors duration-300"></div>
-            <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 peer-checked:translate-x-5"></div>
-          </div>
-        </label>
       </div>
 
       {/* Buttons */}
@@ -393,13 +427,7 @@ function CustomizationPage() {
             setModal({
               show: true,
               message: "Are you sure you want to download your customized photo?",
-              onConfirm: () => {
-                const canvas = canvasRef.current;
-                const link = document.createElement('a');
-                link.download = 'p!cpac_photo.jpg';
-                link.href = canvas.toDataURL();
-                link.click();
-              },
+              onConfirm: exportHDCanvas,              
             })
           }
           className="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 transition"
