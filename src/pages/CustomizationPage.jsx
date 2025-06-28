@@ -147,9 +147,10 @@ function CustomizationPage() {
       D: { x: -7, y: -20, width: 570, height: 675 },
     };
 
+      const now = new Date();
+
     if (overlay) {
       const overlayImage = new Image();
-      const now = new Date();
       overlayImage.src = overlay;
 
       overlayImage.onload = () => {
@@ -171,29 +172,35 @@ function CustomizationPage() {
         ctx.textAlign = 'center';
         ctx.fillText('P!CPAC', layoutWidth[layoutType] / 2, canvasHeight - 65);
 
-          if (showDate) {
+        // Draw date below logo
+        if (showDate) {
           ctx.fillStyle = '#6A6A6A';
-          ctx.font = '12px Fredoka, sans-serif';
+          ctx.font = '10px Fredoka, sans-serif';
           ctx.textAlign = 'center';
-          ctx.fillText(now.toLocaleDateString(), dateX, canvasHeight - 40);
+          ctx.fillText(
+            now.toLocaleDateString(),
+            layoutWidth[layoutType] / 2,
+            canvasHeight - 40
+          );
         }
       };
     } else {
-      // No overlay, draw text/logo directly
-      const now = new Date();
-
       ctx.fillStyle = textColor;
       ctx.font = customFont;
       ctx.textAlign = 'center';
       ctx.fillText('P!CPAC', layoutWidth[layoutType] / 2, textY);
 
-        if (showDate) {
+      if (showDate) {
         ctx.fillStyle = '#6A6A6A';
-        ctx.font = '12px Fredoka, sans-serif';
+        ctx.font = '10px Fredoka, sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(now.toLocaleDateString(), dateX, canvasHeight - 50);
-        }
-    }   
+        ctx.fillText(
+          now.toLocaleDateString(),
+          layoutWidth[layoutType] / 2,
+          textY + 20 // Draw date slightly below logo
+        );
+      }
+    }
 
   };
 
