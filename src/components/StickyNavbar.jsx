@@ -1,29 +1,39 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../assets/images/P!CPAC.png';
 import '../styles/StickyNavbar.css';
-
 
 const StickyNavbar = () => {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  // Handle hiding/showing navbar on scroll
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
-      if (currentScrollY > lastScrollY) {
-        setShowNavbar(false);
-      } else {
-        setShowNavbar(true);
-      }
-
+      setShowNavbar(currentScrollY < lastScrollY || currentScrollY < 10);
       setLastScrollY(currentScrollY);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
+
+  // Smooth scroll to section
+  const handleScrollNav = (sectionId) => {
+    if (location.pathname !== '/') {
+      navigate('/', { replace: false });
+      setTimeout(() => {
+        const section = document.getElementById(sectionId);
+        if (section) section.scrollIntoView({ behavior: 'smooth' });
+      }, 100); // give React time to render
+    } else {
+      const section = document.getElementById(sectionId);
+      if (section) section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <nav
@@ -43,18 +53,30 @@ const StickyNavbar = () => {
           {/* Center Nav Links */}
           <div className="absolute inset-0 flex justify-center items-center">
             <div className="hidden md:flex space-x-24 text-lg">
-              <Link to='/' href="#home" className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2">
+              <button
+                onClick={() => handleScrollNav('home')}
+                className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2"
+              >
                 Home
-              </Link>
-              <a href="#about" className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2">
+              </button>
+              <button
+                onClick={() => handleScrollNav('about')}
+                className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2"
+              >
                 About
-              </a>
-              <Link to="/faq" className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2">
+              </button>
+              <Link
+                to="/faq"
+                className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2"
+              >
                 FAQs
               </Link>
-              <a href="#contact" className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2">
+              <button
+                onClick={() => handleScrollNav('contact')}
+                className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2"
+              >
                 Contact
-              </a>
+              </button>
             </div>
           </div>
         </div>

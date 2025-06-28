@@ -14,18 +14,26 @@ import Contact from './pages/Contact.jsx';
 function App() {
   return (
     <Router>
-        <StickyNavbar />
         
         <div className="px-0 py-4 md:px-16">
+        <StickyNavbar />
           <Routes>
             <Route 
               path="/"
               element={
                 <>
-                  <Home />
-                  <PhotoGallery />
-                  <About />
-                  <Contact />
+                  <div id="home">
+                    <Home />
+                  </div>
+                  <div id="gallery">
+                    <PhotoGallery />
+                  </div>
+                  <div id="about">
+                    <About />
+                  </div>
+                  <div id="contact">
+                    <Contact />
+                  </div>
                 </>
               }
             />
