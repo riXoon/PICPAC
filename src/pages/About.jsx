@@ -10,11 +10,6 @@ const teamMembers = [
     image: rix,
   },
   {
-    name: 'Carissa Jade Carinan',
-    role: 'UI/UX Designer',
-    image: jade,
-  },
-  {
     name: 'Stefanni Vienne Carcer',
     role: 'UI/UX Designer',
     image: byen,
@@ -78,7 +73,7 @@ export default function About() {
         <h2 className="text-2xl md:text-3xl font-bold text-indigo-500 mb-12 animate-fadeIn">
           Meet the Team
         </h2>
-        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 max-w-6xl mx-auto">
+        <div className="flex justify-center items-center gap-8 sm:flex-wrap md:flex-wrap max-w-6xl mx-auto">
           {teamMembers.map((member, index) => (
             <div
               key={index}
