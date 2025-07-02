@@ -10,11 +10,12 @@ import Photobooth from './pages/Photobooth.jsx';
 import CustomizationPage from './pages/CustomizationPage.jsx';
 import PhotoGallery from './pages/PhotoGallery.jsx';
 import Contact from './pages/Contact.jsx';
+import ScrollToTop from './components/ScrollToTop.jsx';
 
 function App() {
   return (
     <Router>
-        
+        <ScrollToTop />
         <div className="px-0 py-4 md:px-16">
         <StickyNavbar />
           <Routes>
@@ -32,7 +33,7 @@ function App() {
                     <About />
                   </div>
                   <div id="contact">
-                    <Contact />
+                  <Contact />
                   </div>
                 </>
               }

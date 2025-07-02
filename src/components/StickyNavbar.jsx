@@ -35,6 +35,15 @@ const StickyNavbar = () => {
     }
   };
 
+  const handleLogoClick = () => {
+    if (location.pathname !== '/') {
+      navigate('/');
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+
   return (
     <nav
       className={`sticky top-0 z-50 bg-amber-50 shadow-md transition-transform duration-300 ${
@@ -42,11 +51,11 @@ const StickyNavbar = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative flex items-center justify-between h-16">
+        <div className="relative flex items-center justify-between h-16" onClick={handleLogoClick}>
           {/* Logo (Left) */}
           <div className="flex-shrink-0">
             <Link to="/">
-              <img src={Logo} alt="Logo" className="h-6 w-auto" />
+              <img src={Logo} alt="Logo" className="h-6 w-auto cursor-pointer" />
             </Link>
           </div>
 
@@ -55,25 +64,25 @@ const StickyNavbar = () => {
             <div className="hidden md:flex space-x-24 text-lg">
               <button
                 onClick={() => handleScrollNav('home')}
-                className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2"
+                className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2 cursor-pointer"
               >
                 Home
               </button>
               <button
                 onClick={() => handleScrollNav('about')}
-                className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2"
+                className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2 cursor-pointer"
               >
                 About
               </button>
               <Link
                 to="/faq"
-                className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2"
+                className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2 cursor-pointer"
               >
                 FAQs
               </Link>
               <button
                 onClick={() => handleScrollNav('contact')}
-                className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2"
+                className="text-gray-700 hover:text-indigo-600 hover:underline underline-offset-2 cursor-pointer"
               >
                 Contact
               </button>
