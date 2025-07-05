@@ -1,7 +1,6 @@
 import React from 'react';
-import rix from '../assets/images/rix.png';
-import jade from '../assets/images/jade.png';
-import byen from '../assets/images/byen.png';
+import rix from '../assets/images/erickson.jpg';
+import byen from '../assets/images/vien.jpg';
 
 const teamMembers = [
   {
